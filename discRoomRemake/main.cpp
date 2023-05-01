@@ -57,10 +57,10 @@ int main() {
 				case Keyboard::Escape:
 					window.close();
 					break;
-				case Keyboard::Up:
+				case Keyboard::Down:
 					dir = 1;
 					break;
-				case Keyboard::Down:
+				case Keyboard::Up:
 					dir = 2;
 					break;
 				case Keyboard::Left:
