@@ -16,7 +16,7 @@ public:
 	void setPosition(const sf::Vector2f& pos);
 
 	//animation du déplacement selon la direction
-	void move(int dir);
+	void move(int dir,float x, float y);
 
 	//draw le RectangleShape ds la window
 	void draw(sf::RenderWindow& window)const;

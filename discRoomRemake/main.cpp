@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "Bonhomme.h"
 
 using namespace sf;
 
@@ -6,28 +7,30 @@ int main() {
 
 	RenderWindow window;
 	RectangleShape fondEcran;
-	RectangleShape bonhomme;
-
+	Bonhomme bonhommeDisc;
+	IntRect rectSprite(0, 0, 32, 32);
 	Clock clock;
 	Time time;
-	int dir = 2;
+
+	int dir = 0;
 
 	float lastX = 0;
 	float lastY = 0;
+	bool colision = false;
 
 	window.create(VideoMode(800, 600), "Lost SFML");
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
 
 	//Écran
-	//fondEcran.setPosition(10, 20);
 	fondEcran.setSize(Vector2f(800, 600));
 	fondEcran.setOutlineColor(Color::Red);
 	fondEcran.setOutlineThickness(5);
 	fondEcran.setFillColor(Color::White);
 
 	//Bonhomme
-	bonhomme.setPosition(400, 300);
-	bonhomme.setSize(Vector2f(32, 32));
+	bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
+	bonhommeDisc.setPosition(400, 300);
+
 	//bonhomme.setFillColor(Color::Blue);
 
 	Texture textureBonhomme;
@@ -36,9 +39,6 @@ int main() {
 		return 1;
 	}
 
-	bonhomme.setTexture(&textureBonhomme);
-	IntRect rectSprite(32, 0, 32, 32);
-	bonhomme.setTextureRect(rectSprite);
 
 	// on fait tourner le programme jusqu'à ce que la fenêtre soit fermée
 	while (window.isOpen())
@@ -84,55 +84,59 @@ int main() {
 			}
 		}
 
-		//time = clock.getElapsedTime();
-		//if (time.asMilliseconds() >= 100.0f)
-		//{
-		//	switch (dir)
-		//	{
-		//	case 1:
-		//		rectSprite.top = 96;
-		//		bonhomme.move(0, -10);
-		//		break;
+		time = clock.getElapsedTime();
 
-		//	case 2:
-		//		rectSprite.top = 0;
-		//		bonhomme.move(0, 10);
-		//		break;
+		if (time.asMilliseconds() >= 100.0f)
+		{
+			bonhommeDisc.move(dir, lastX, lastY);
 
-		//	case 3:
-		//		rectSprite.top = 32;
-		//		bonhomme.move(-10, 0);
-		//		break;
+			if (bonhommeDisc.getPosition().x > 800 - 32 || bonhommeDisc.getPosition().x < 0)
+			{
+				colision = true;
+				switch (dir)
+				{
+				case 3:
+					bonhommeDisc.setPosition(0, bonhommeDisc.getPosition().y);
+					break;
+				case 4:
+					bonhommeDisc.setPosition(800 - 32, bonhommeDisc.getPosition().y);
+					break;
+				default:
+					exit(1);
+					break;
+				}
+			}
+			if (bonhommeDisc.getPosition().y > 600 - 32 || bonhommeDisc.getPosition().y < 0)
+			{
+				colision = true;
+				switch (dir)
+				{
+				case 1:
+					bonhommeDisc.setPosition(bonhommeDisc.getPosition().x, 0);
+					break;
+				case 2:
+					bonhommeDisc.setPosition(bonhommeDisc.getPosition().x, 600 - 32);
+					break;
+				default:
+					exit(1);
+					break;
+				}
+			}
 
-		//	case 4:
-		//		rectSprite.top = 64;
-		//		bonhomme.move(10, 0);
-		//		break;
-		//	default:
-		//		break;
-		//	}
+			window.clear(Color::Black);
 
-			////reset boucle sprite
-			//rectSprite.left += 32;
-			//if (rectSprite.left >= 96)
-			//{
-			//	rectSprite.left = 0;
-			//}
-			//bonhomme.setTextureRect(rectSprite);
+			//UpDate
+			dir = 0;
+			//bonhommeDisc.move(dir, lastX, lastY);
 
-			// effacement de la fenêtre en noir
-		window.clear(Color::Black);
+			//DRAW
+			window.draw(fondEcran);
+			bonhommeDisc.draw(window);
 
-		//UpDate
-		bonhomme.move(lastX, lastY);
-
-		//DRAW
-		window.draw(fondEcran);
-		window.draw(bonhomme);
-
-		// fin de la frame courante, affichage de tout ce qu'on a dessiné
-		window.display();
-		clock.restart();
+			// fin de la frame courante, affichage de tout ce qu'on a dessiné
+			window.display();
+			clock.restart();
+		}
 	}
 	exit(0);
 }
