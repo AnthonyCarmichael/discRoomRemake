@@ -15,10 +15,13 @@ int main() {
 	Clock clock;
 	Time time;
 
+	int dirX = 0;
+	int dirY = 0;
 	int dir = 0;
 
 	float lastX = 0;
 	float lastY = 0;
+	float temp = 0;
 	bool colision = false;
 	int animationCpt = 0;
 
@@ -84,11 +87,11 @@ int main() {
 					std::cout << "X: " << Joystick::getAxisPosition(0, sf::Joystick::X) << std::endl;
 					if (lastX<0)
 					{
-						dir = 3;
+						dirX = 3;
 					}
 					else if (lastX>0)
 					{
-						dir = 4;
+						dirX = 4;
 					}
 				}
 				if (event.joystickMove.axis == sf::Joystick::Y)
@@ -97,17 +100,72 @@ int main() {
 					std::cout << "Y: " << Joystick::getAxisPosition(0, sf::Joystick::Y) << std::endl;
 					if (lastY < 0)
 					{
-						dir = 2;
+						dirY = 2;
 					}
 					else if (lastY > 0)
 					{
-						dir = 1;
+						dirY = 1;
 					}
 				}
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				// À METTRE EN FONCTIOM
+				// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				//comparer lastX et lastY
+				if (lastX < 0 && lastY > 0)
+				{
+					//conversion
+					temp = lastX * -1;
+					if (temp >= lastY)
+					{
+						dir = dirX;
+					}
+					else
+					{
+						dir = dirY;
+					}
+				}
+				else if (lastY < 0 && lastX>0)
+				{
+					//conversion
+					temp = lastY * -1;
+					if (temp >= lastY)
+					{
+						dir = dirX;
+					}
+					else
+					{
+						dir = dirY;
+					}
+				}
+				else if (lastY < 0 && lastX < 0)
+				{
+					if (lastX >= lastY)
+					{
+						dir = dirX;
+					}
+					else
+					{
+						dir = dirY;
+					}
+				}
+				else if (lastY > 0 && lastX > 0)
+				{
+					if (lastX <= lastY)
+					{
+						dir = dirX;
+					}
+					else
+					{
+						dir = dirY;
+					}
+				}
+				//deadZone pas de movement
 				if (lastX < 0.1 && lastX > -0.1 && lastY < 0.1 && lastY > -0.1)
 				{
 					dir = 0;
 				}
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			}
 		}
 
