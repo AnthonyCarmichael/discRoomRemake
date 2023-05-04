@@ -131,12 +131,16 @@
   <ItemGroup>
     <ClCompile Include="Bonhomme.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mesFonctions.cpp" />
+    <ClCompile Include="Scie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bonhomme.h" />
+    <ClInclude Include="mesFonctions.h" />
+    <ClInclude Include="Scie.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Bonhomme.h"
+#include"Scie.h"
+#include"mesFonctions.h"
 
 using namespace sf;
 
@@ -9,6 +11,7 @@ int main() {
 	RenderWindow window;
 	RectangleShape fondEcran;
 	Texture textureFondEcran;
+	Scie scie;
 	Bonhomme bonhommeDisc;
 	IntRect rectSprite(0, 0, 32, 32);
 	IntRect backgroundSprite(0, 0, 800, 600);
@@ -21,6 +24,9 @@ int main() {
 	float lastY = 0;
 	bool colision = false;
 	int animationCpt = 0;
+
+	//modification max
+	scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
 
 	window.create(VideoMode(800, 600), "Lost SFML");
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
@@ -150,6 +156,10 @@ int main() {
 				}
 			}
 
+			//modification max
+			scie.moveScie();
+			ifCollisionScie(scie);
+
 			window.clear(Color::Black);
 
 			//UpDate
@@ -158,6 +168,7 @@ int main() {
 
 			//DRAW
 			window.draw(fondEcran);
+			scie.draw(window);
 			bonhommeDisc.draw(window);
 
 			// fin de la frame courante, affichage de tout ce qu'on a dessiné
