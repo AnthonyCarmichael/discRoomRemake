@@ -34,29 +34,33 @@ bool ifCollisionBonhomme(Bonhomme& bob)
 
 }
 
-bool ifCollisionScie(Scie& scie)
+bool ifCollisionScie(Scie& scie,bool& move, int& moveX, int& moveY)
 {
     if (scie.getPosition().x > 700 - 32)
     {
-        scie.setPosition(sf::Vector2f(700 - 32, scie.getPosition().y));
+        moveX = moveX / -1;
+        scie.initMoveScie(move, moveX, moveY);
         return true;
     }
 
     else if (scie.getPosition().x < 100)
     {
-        scie.setPosition(sf::Vector2f(100, scie.getPosition().y));
+        moveX = moveX / -1;
+        scie.initMoveScie(move, moveX, moveY);
         return true;
     }
 
     else if (scie.getPosition().y > 500 - 32)
     {
-        scie.setPosition(sf::Vector2f(scie.getPosition().x, 500 - 32));
+        moveY = moveY / -1;
+        scie.initMoveScie(move, moveX, moveY);
         return true;
     }
 
     else if (scie.getPosition().y < 100)
     {
-        scie.setPosition(sf::Vector2f(scie.getPosition().x, 100));
+        moveY = moveY / -1;
+        scie.initMoveScie(move, moveX, moveY);
         return true;
     }
 

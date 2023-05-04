@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <time.h>
 #include "Bonhomme.h"
 #include"Scie.h"
 #include"mesFonctions.h"
@@ -16,18 +17,22 @@ int main() {
 	IntRect rectSprite(0, 0, 32, 32);
 	IntRect backgroundSprite(0, 0, 800, 600);
 	Clock clock;
-	Time time;
+	/*Time time;*/
 
 	int dirX = 0;
 	int dirY = 0;
 	int dir = 0;
+	int moveX = 0;
+	int moveY = 0;
 
 	float lastX = 0;
 	float lastY = 0;
 	float temp = 0;
+	bool move = false;
 	bool colision = false;
 	int animationCpt = 0;
 
+	srand(time(NULL));
 	//modification max
 	scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
 
@@ -184,8 +189,8 @@ int main() {
 			
 
 			//modification max
-			scie.moveScie();
-			ifCollisionScie(scie);
+			scie.initMoveScie(move, moveX, moveY);
+			ifCollisionScie(scie, move, moveX, moveY);
 
 			window.clear(Color::Black);
 

@@ -14,7 +14,7 @@ public:
 	void setPosition(int posX, int posY);
 	void setPosition(const sf::Vector2f& pos);
 
-	void moveScie();
+	void initMoveScie(bool& move, int& moveX, int& moveY);
 
 	void draw(sf::RenderWindow& window)const;
 };

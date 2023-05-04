@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include<assert.h>
+#include<time.h>
 #include "Scie.h"
 
 
@@ -33,9 +34,18 @@ void Scie::setPosition(const sf::Vector2f& pos)
     _posScie.setPosition(sf::Vector2f(pos));
 }
 
-void Scie::moveScie()
+void Scie::initMoveScie(bool& move, int& moveX, int& moveY)
 {
-    _posScie.move(sf::Vector2f(10, 0));
+
+    if (!move) 
+    {
+        moveX = rand() % (10 + 1 - -10) + -10;
+        moveY = rand() % (10 + 1 - -10) + -10;
+        move = true;
+    }
+    /*moveX = moveX / 10;
+    moveY = moveY / 10;*/
+    _posScie.move(sf::Vector2f(moveX, moveY));
 }
 
 void Scie::draw(sf::RenderWindow& window) const
