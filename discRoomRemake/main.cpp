@@ -181,39 +181,8 @@ int main() {
 		//if (time.asMilliseconds() >= 100.0f)
 		//{
 			bonhommeDisc.move(dir, lastX, lastY, animationCpt);
-
-			if (bonhommeDisc.getPosition().x > 800 - 32 || bonhommeDisc.getPosition().x < 0)
-			{
-				colision = true;
-				switch (dir)
-				{
-				case 3:
-					bonhommeDisc.setPosition(0, bonhommeDisc.getPosition().y);
-					break;
-				case 4:
-					bonhommeDisc.setPosition(800 - 32, bonhommeDisc.getPosition().y);
-					break;
-				default:
-					exit(1);
-					break;
-				}
-			}
-			if (bonhommeDisc.getPosition().y > 600 - 32 || bonhommeDisc.getPosition().y < 0)
-			{
-				colision = true;
-				switch (dir)
-				{
-				case 1:
-					bonhommeDisc.setPosition(bonhommeDisc.getPosition().x, 0);
-					break;
-				case 2:
-					bonhommeDisc.setPosition(bonhommeDisc.getPosition().x, 600 - 32);
-					break;
-				default:
-					exit(1);
-					break;
-				}
-			}
+			ifCollisionBonhomme(bonhommeDisc);
+			
 
 			//modification max
 			scie.moveScie();
