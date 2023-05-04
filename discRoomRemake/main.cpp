@@ -120,6 +120,7 @@ int main() {
 				}
 				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				// À METTRE EN FONCTIOM
+				// Doit déterminer la valeur la plus importante pour choisir quelle sprite afficher pour le bonhomme
 				// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				//comparer lastX et lastY
 				if (lastX < 0 && lastY > 0)
@@ -135,22 +136,22 @@ int main() {
 						dir = dirY;
 					}
 				}
-				else if (lastY < 0 && lastX>0)
+				else if (lastX > 0 && lastY < 0)
 				{
 					//conversion
 					temp = lastY * -1;
-					if (temp >= lastY)
+					if (temp >= lastX)
 					{
-						dir = dirX;
+						dir = dirY;
 					}
 					else
 					{
-						dir = dirY;
+						dir = dirX;
 					}
 				}
 				else if (lastY < 0 && lastX < 0)
 				{
-					if (lastX >= lastY)
+					if (lastX <= lastY)
 					{
 						dir = dirX;
 					}
@@ -161,7 +162,7 @@ int main() {
 				}
 				else if (lastY > 0 && lastX > 0)
 				{
-					if (lastX <= lastY)
+					if (lastX > lastY)
 					{
 						dir = dirX;
 					}
