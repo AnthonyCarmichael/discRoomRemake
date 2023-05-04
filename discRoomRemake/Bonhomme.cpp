@@ -36,22 +36,22 @@ void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 	{
 		switch (dir)
 		{
-		case 1:
+		case 1://down
 			_rectSprite.top = 0;
 			_posBonhomme.move(0, 10);
 			break;
 
-		case 2:
+		case 2://up
 			_rectSprite.top = 32;
 			_posBonhomme.move(0, -10);
 			break;
 
-		case 3:
+		case 3://left
 			_rectSprite.top = 64;
 			_posBonhomme.move(-10, 0);
 			break;
 
-		case 4:
+		case 4://right
 			_rectSprite.top = 96;
 			_posBonhomme.move(10, 0);
 			break;
@@ -69,10 +69,32 @@ void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 	
 		_posBonhomme.setTextureRect(_rectSprite);
 	}
-	else
+	else //Joystick
 	{
-		if (dir !=0)
+		if (dir != 0)
+		{
 			animationCpt++;
+			switch (dir)
+			{
+			case 1:
+				_rectSprite.top = 0;
+				break;
+
+			case 2:
+				_rectSprite.top = 32;
+				break;
+
+			case 3:
+				_rectSprite.top = 64;
+				break;
+
+			case 4:
+				_rectSprite.top = 96;
+				break;
+			default:
+				break;
+			}
+		}
 		else
 			animationCpt=0;
 		if (animationCpt==10)
