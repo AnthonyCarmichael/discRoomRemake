@@ -30,7 +30,7 @@ void Bonhomme::setPosition(const sf::Vector2f& pos)
 	_posBonhomme.setPosition(pos);
 }
 
-void Bonhomme::move(int dir,float x, float y)
+void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 {
 	if (x == 0 && y == 0 )
 	{
@@ -71,7 +71,22 @@ void Bonhomme::move(int dir,float x, float y)
 	}
 	else
 	{
+		if (dir !=0)
+			animationCpt++;
+		else
+			animationCpt=0;
+		if (animationCpt==10)
+		{
+			_rectSprite.left += 32;
+			if (_rectSprite.left >= 128)
+			{
+				_rectSprite.left = 0;
+			}
+			animationCpt = 0;
+		}
+		_posBonhomme.setTextureRect(_rectSprite);
 		_posBonhomme.move(x, y);
+		
 	}
 	
 }

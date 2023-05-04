@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "Bonhomme.h"
 
 using namespace sf;
@@ -7,8 +8,10 @@ int main() {
 
 	RenderWindow window;
 	RectangleShape fondEcran;
+	Texture textureFondEcran;
 	Bonhomme bonhommeDisc;
 	IntRect rectSprite(0, 0, 32, 32);
+	IntRect backgroundSprite(0, 0, 800, 600);
 	Clock clock;
 	Time time;
 
@@ -17,15 +20,17 @@ int main() {
 	float lastX = 0;
 	float lastY = 0;
 	bool colision = false;
+	int animationCpt = 0;
 
 	window.create(VideoMode(800, 600), "Lost SFML");
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
 
 	//Écran
 	fondEcran.setSize(Vector2f(800, 600));
-	fondEcran.setOutlineColor(Color::Red);
-	fondEcran.setOutlineThickness(5);
-	fondEcran.setFillColor(Color::White);
+	//fondEcran.setOutlineColor(Color::Red);
+	//fondEcran.setOutlineThickness(5);
+	//fondEcran.setFillColor(Color::White);
+	
 
 	//Bonhomme
 	bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
@@ -33,12 +38,12 @@ int main() {
 
 	//bonhomme.setFillColor(Color::Blue);
 
-	Texture textureBonhomme;
-	if (!textureBonhomme.loadFromFile("ressources/charsets.bmp"))
+	
+	if (!textureFondEcran.loadFromFile("ressources/disc_room_background.png"))
 	{
 		return 1;
 	}
-
+	fondEcran.setTexture(&textureFondEcran);
 
 	// on fait tourner le programme jusqu'à ce que la fenêtre soit fermée
 	while (window.isOpen())
@@ -75,20 +80,42 @@ int main() {
 			{
 				if (event.joystickMove.axis == sf::Joystick::X)
 				{
-					lastX = Joystick::getAxisPosition(0, sf::Joystick::X) / 15;
+					lastX = Joystick::getAxisPosition(0, sf::Joystick::X) / 40;
+					std::cout << "X: " << Joystick::getAxisPosition(0, sf::Joystick::X) << std::endl;
+					if (lastX<0)
+					{
+						dir = 3;
+					}
+					else if (lastX>0)
+					{
+						dir = 4;
+					}
 				}
 				if (event.joystickMove.axis == sf::Joystick::Y)
 				{
-					lastY = event.joystickMove.position / 15;
+					lastY = event.joystickMove.position / 40;
+					std::cout << "Y: " << Joystick::getAxisPosition(0, sf::Joystick::Y) << std::endl;
+					if (lastY < 0)
+					{
+						dir = 2;
+					}
+					else if (lastY > 0)
+					{
+						dir = 1;
+					}
+				}
+				if (lastX < 0.1 && lastX > -0.1 && lastY < 0.1 && lastY > -0.1)
+				{
+					dir = 0;
 				}
 			}
 		}
 
-		time = clock.getElapsedTime();
+		//time = clock.getElapsedTime();
 
-		if (time.asMilliseconds() >= 100.0f)
-		{
-			bonhommeDisc.move(dir, lastX, lastY);
+		//if (time.asMilliseconds() >= 100.0f)
+		//{
+			bonhommeDisc.move(dir, lastX, lastY, animationCpt);
 
 			if (bonhommeDisc.getPosition().x > 800 - 32 || bonhommeDisc.getPosition().x < 0)
 			{
@@ -126,7 +153,7 @@ int main() {
 			window.clear(Color::Black);
 
 			//UpDate
-			dir = 0;
+			
 			//bonhommeDisc.move(dir, lastX, lastY);
 
 			//DRAW
@@ -135,8 +162,8 @@ int main() {
 
 			// fin de la frame courante, affichage de tout ce qu'on a dessiné
 			window.display();
-			clock.restart();
-		}
+			//clock.restart();
+		//}
 	}
 	exit(0);
 }
