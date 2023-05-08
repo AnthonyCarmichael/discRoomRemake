@@ -40,11 +40,12 @@ void Scie::initMoveScie(bool& move, int& moveX, int& moveY)
     if (!move) 
     {
         do {
-            moveX = rand() % (10 + 1 - -10) + -10;
-            moveY = rand() % (10 + 1 - -10) + -10;
+            moveX = rand() % (0 + 1 - -1) + -1;
+            moveY = rand() % (0 + 1 - -1) + -1;
             move = true;
         } while (moveX == 0 || moveY == 0);
-        
+        moveX = moveX * 5;
+        moveY = moveY * 5;
     }
    
     _posScie.move(sf::Vector2f(moveX, moveY));

@@ -125,6 +125,7 @@ void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 		}
 		_posBonhomme.setTextureRect(_rectSprite);
 		_posBonhomme.move(x, y);
+		_hitbox.setPosition(_posBonhomme.getPosition().x + 6, _posBonhomme.getPosition().y + 6);
 		
 	}
 	
