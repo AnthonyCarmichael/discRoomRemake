@@ -38,35 +38,80 @@ void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 		{
 		case 1://down
 			_rectSprite.top = 0;
-			_posBonhomme.move(0, 10);
+			_posBonhomme.move(0, 5);
 			break;
 
 		case 2://up
 			_rectSprite.top = 32;
-			_posBonhomme.move(0, -10);
+			_posBonhomme.move(0, -5);
 			break;
 
 		case 3://left
 			_rectSprite.top = 64;
-			_posBonhomme.move(-10, 0);
+			_posBonhomme.move(-5, 0);
 			break;
 
 		case 4://right
 			_rectSprite.top = 96;
-			_posBonhomme.move(10, 0);
+			_posBonhomme.move(5, 0);
 			break;
+
+		case 5://down left
+			_rectSprite.top = 0;
+			_posBonhomme.move(-5, 5);
+			break;
+
+		case 6://down right
+			_rectSprite.top = 0;
+			_posBonhomme.move(5, 5);
+			break;
+
+		case 7://up left
+			_rectSprite.top = 32;
+			_posBonhomme.move(-5, -5);
+			break;
+
+		case 8://up right
+			_rectSprite.top = 32;
+			_posBonhomme.move(5, -5);
+			break;
+
+		case 9://left down
+			_rectSprite.top = 64;
+			_posBonhomme.move(-5, 5);
+			break;
+
+		case 10://left up
+			_rectSprite.top = 64;
+			_posBonhomme.move(-5, -5);
+			break;
+
+		case 11://right down
+			_rectSprite.top = 96;
+			_posBonhomme.move(5, 5);
+			break;
+
+		case 12://right up
+			_rectSprite.top = 96;
+			_posBonhomme.move(5, -5);
+			break;
+
 		default:
 			break;
 		}
 		if (dir > 0)
 		{
-			_rectSprite.left += 32;
+			animationCpt++;
+			if (animationCpt==5)
+			{
+				_rectSprite.left += 32;
+				animationCpt = 0;
+			}
 			if (_rectSprite.left >= 128)
 			{
 				_rectSprite.left = 0;
 			}
 		}
-	
 		_posBonhomme.setTextureRect(_rectSprite);
 	}
 	else //Joystick
@@ -90,8 +135,6 @@ void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 
 			case 4:
 				_rectSprite.top = 96;
-				break;
-			default:
 				break;
 			}
 		}

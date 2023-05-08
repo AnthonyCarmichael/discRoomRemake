@@ -22,6 +22,7 @@ int main() {
 	int dirX = 0;
 	int dirY = 0;
 	int dir = 0;
+	int dirDiagonale=0;
 	int moveX = 0;
 	int moveY = 0;
 
@@ -77,16 +78,62 @@ int main() {
 					window.close();
 					break;
 				case Keyboard::Down:
-					dir = 1;
-					break;
+					
+					if (Keyboard::isKeyPressed(Keyboard::Left))
+					{
+						dir=5;//bas gauche
+					}
+					else if (Keyboard::isKeyPressed(Keyboard::Right))
+					{
+						dir = 6;//bas droite
+					}
+					else
+					{
+						dir = 1;//bas
+					}
+				break;
 				case Keyboard::Up:
-					dir = 2;
+					if (Keyboard::isKeyPressed(Keyboard::Left))
+					{
+						dir = 7;//haut gauche
+					}
+					else if (Keyboard::isKeyPressed(Keyboard::Right))
+					{
+						dir = 8;//haut droite
+					}
+					else
+					{
+						dir = 2;//Haut
+					}
 					break;
 				case Keyboard::Left:
-					dir = 3;
+					if (Keyboard::isKeyPressed(Keyboard::Down))
+					{
+						dir = 9;//Gauche bas
+					}
+					else if (Keyboard::isKeyPressed(Keyboard::Up))
+					{
+						dir = 10;//Gauche haut
+					}
+					else
+					{
+						dir = 3;//gauche
+					}
+
 					break;
 				case Keyboard::Right:
-					dir = 4;
+					if (Keyboard::isKeyPressed(Keyboard::Down))
+					{
+						dir = 11;//Droite bas
+					}
+					else if (Keyboard::isKeyPressed(Keyboard::Up))
+					{
+						dir = 12;//Droite haut
+					}
+					else
+					{
+						dir = 4;//Droite
+					}
 					break;
 				}
 			}
@@ -172,7 +219,7 @@ int main() {
 					}
 				}
 				//deadZone pas de movement
-				if (lastX < 0.1 && lastX > -0.1 && lastY < 0.1 && lastY > -0.1)
+				if (lastX < 0.2 && lastX > -0.2 && lastY < 0.2 && lastY > -0.2)
 				{
 					dir = 0;
 				}
@@ -196,7 +243,8 @@ int main() {
 			window.clear(Color::Black);
 
 			//UpDate
-			
+			dir = 0;
+			dirDiagonale = 0;
 			//bonhommeDisc.move(dir, lastX, lastY);
 
 			//DRAW
