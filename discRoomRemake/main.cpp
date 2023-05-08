@@ -53,7 +53,7 @@ int main() {
 	//bonhomme.setFillColor(Color::Blue);
 
 	
-	if (!textureFondEcran.loadFromFile("ressources/disc_room_background.png"))
+	if (!textureFondEcran.loadFromFile("ressources/disc_room_background2.png"))
 	{
 		return 1;
 	}
@@ -220,7 +220,7 @@ int main() {
 					}
 				}
 				//deadZone pas de movement
-				if (lastX < 0.1 && lastX > -0.1 && lastY < 0.1 && lastY > -0.1)
+				if (lastX < 0.2 && lastX > -0.2 && lastY < 0.2 && lastY > -0.2)
 				{
 					dir = 0;
 				}
