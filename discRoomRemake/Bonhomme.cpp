@@ -13,11 +13,19 @@ void Bonhomme::init(int posX, int posY, int w, int h, const sf::IntRect& rectSpr
 	_posBonhomme.setTexture(&_textureBonhomme);
 	_rectSprite = rectSprite;
 	_posBonhomme.setTextureRect(rectSprite);
+	_hitbox.setPosition(posX + 6, posY + 6);
+	_hitbox.setSize(sf::Vector2f(w - 12, h - 12));
+	_hitbox.setFillColor(sf::Color::Black);
 }
 
 const sf::Vector2f& Bonhomme::getPosition() const
 {
 	return _posBonhomme.getPosition();
+}
+
+const sf::Vector2f& Bonhomme::getHitboxPosition() const
+{
+	return _hitbox.getPosition();
 }
 
 void Bonhomme::setPosition(int posX, int posY)
@@ -28,6 +36,11 @@ void Bonhomme::setPosition(int posX, int posY)
 void Bonhomme::setPosition(const sf::Vector2f& pos)
 {
 	_posBonhomme.setPosition(pos);
+}
+
+void Bonhomme::setHitboxPosition(int posX, int posY)
+{
+	_hitbox.setPosition(posX, posY);
 }
 
 void Bonhomme::move(int dir,float x, float y, int &animationCpt)
@@ -151,6 +164,7 @@ void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 		}
 		_posBonhomme.setTextureRect(_rectSprite);
 		_posBonhomme.move(x, y);
+		_hitbox.setPosition(_posBonhomme.getPosition().x + 6, _posBonhomme.getPosition().y + 6);
 		
 	}
 	
@@ -159,4 +173,5 @@ void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 void Bonhomme::draw(sf::RenderWindow& window) const
 {
 	window.draw(_posBonhomme);
+	window.draw(_hitbox);
 }

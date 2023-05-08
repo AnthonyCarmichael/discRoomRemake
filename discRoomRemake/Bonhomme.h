@@ -5,6 +5,7 @@ private:
 	sf::RectangleShape _posBonhomme;
 	sf::Texture _textureBonhomme;
 	sf::IntRect _rectSprite;
+	sf::RectangleShape _hitbox;
 public:
 	//initialise la position et le size du RectangleShape, 
 	//load la texture et l’applique et affecte le IntRect et l’applique
@@ -12,8 +13,10 @@ public:
 
 	//retourne et modifie la position du bonhomme
 	const sf::Vector2f& getPosition()const;
+	const sf::Vector2f& getHitboxPosition()const;
 	void setPosition(int posX, int posY);
 	void setPosition(const sf::Vector2f& pos);
+	void setHitboxPosition(int posX, int posY);
 
 	//animation du déplacement selon la direction
 	void move(int dir,float x, float y,int &animationCpt);

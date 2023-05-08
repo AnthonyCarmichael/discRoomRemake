@@ -49,7 +49,7 @@ int main() {
 
 	//Bonhomme
 	bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
-	bonhommeDisc.setPosition(400, 300);
+	/*bonhommeDisc.setPosition(400, 300);*/
 
 	//bonhomme.setFillColor(Color::Blue);
 
