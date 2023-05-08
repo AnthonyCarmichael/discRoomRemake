@@ -135,6 +135,7 @@ int main() {
 					}
 					break;
 				default:
+					dir = 0;
 					break;
 				}
 			}

@@ -45,89 +45,12 @@ void Bonhomme::setHitboxPosition(int posX, int posY)
 
 void Bonhomme::move(int &dir,float x, float y, int &animationCpt)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D) && (x == 0) && (y==0))
 	{
-		switch (dir)
-		{
-		case 1://down
-			_rectSprite.top = 0;
-			_posBonhomme.move(0, 5);
-			_hitbox.move(0, 5);
-			break;
-
-		case 2://up
-			_rectSprite.top = 32;
-			_posBonhomme.move(0, -5);
-			_hitbox.move(0, -5);
-			break;
-
-		case 3://left
-			_rectSprite.top = 64;
-			_posBonhomme.move(-5, 0);
-			_hitbox.move(-5, 0);
-			break;
-
-		case 4://right
-			_rectSprite.top = 96;
-			_posBonhomme.move(5, 0);
-			_hitbox.move(5, 0);
-			break;
-
-		case 5://down left
-			_rectSprite.top = 0;
-			_posBonhomme.move(-5, 5);
-			_hitbox.move(-5, 5);
-			break;
-
-		case 6://down right
-			_rectSprite.top = 0;
-			_posBonhomme.move(5, 5);
-			_hitbox.move(5, 5);
-			break;
-
-		case 7://up left
-			_rectSprite.top = 32;
-			_posBonhomme.move(-5, -5);
-			_hitbox.move(-5, -5);
-			break;
-
-		case 8://up right
-			_rectSprite.top = 32;
-			_posBonhomme.move(5, -5);
-			_hitbox.move(5, -5);
-			break;
-
-		case 9://left down
-			_rectSprite.top = 64;
-			_posBonhomme.move(-5, 5);
-			_hitbox.move(-5, 5);
-			break;
-
-		case 10://left up
-			_rectSprite.top = 64;
-			_posBonhomme.move(-5, -5);
-			_hitbox.move(-5, -5);
-			break;
-
-		case 11://right down
-			_rectSprite.top = 96;
-			_posBonhomme.move(5, 5);
-			_hitbox.move(5, 5);
-			break;
-
-		case 12://right up
-			_rectSprite.top = 96;
-			_posBonhomme.move(5, -5);
-			_hitbox.move(5, -5);
-			break;
-
-		default:
-			break;
-		}
 		if (dir > 0)
 		{
 			animationCpt++;
-			if (animationCpt==5)
+			if (animationCpt >= 10)
 			{
 				_rectSprite.left += 32;
 				animationCpt = 0;
@@ -137,10 +60,87 @@ void Bonhomme::move(int &dir,float x, float y, int &animationCpt)
 				_rectSprite.left = 0;
 			}
 		}
+		switch (dir)
+		{
+		case 1://down
+			_rectSprite.top = 0;
+			_posBonhomme.move(0, 3);
+			_hitbox.move(0, 3);
+			break;
+
+		case 2://up
+			_rectSprite.top = 32;
+			_posBonhomme.move(0, -3);
+			_hitbox.move(0, -3);
+			break;
+
+		case 3://left
+			_rectSprite.top = 64;
+			_posBonhomme.move(-3, 0);
+			_hitbox.move(-3, 0);
+			break;
+
+		case 4://right
+			_rectSprite.top = 96;
+			_posBonhomme.move(3, 0);
+			_hitbox.move(3, 0);
+			break;
+
+		case 5://down left
+			_rectSprite.top = 0;
+			_posBonhomme.move(-3, 3);
+			_hitbox.move(-3, 3);
+			break;
+
+		case 6://down right
+			_rectSprite.top = 0;
+			_posBonhomme.move(3, 3);
+			_hitbox.move(3, 3);
+			break;
+
+		case 7://up left
+			_rectSprite.top = 32;
+			_posBonhomme.move(-3, -3);
+			_hitbox.move(-3, -3);
+			break;
+
+		case 8://up right
+			_rectSprite.top = 32;
+			_posBonhomme.move(3, -3);
+			_hitbox.move(3, -3);
+			break;
+
+		case 9://left down
+			_rectSprite.top = 64;
+			_posBonhomme.move(-3, 3);
+			_hitbox.move(-3, 3);
+			break;
+
+		case 10://left up
+			_rectSprite.top = 64;
+			_posBonhomme.move(-3, -3);
+			_hitbox.move(-3, -3);
+			break;
+
+		case 11://right down
+			_rectSprite.top = 96;
+			_posBonhomme.move(3, 3);
+			_hitbox.move(3, 3);
+			break;
+
+		case 12://right up
+			_rectSprite.top = 96;
+			_posBonhomme.move(3, -3);
+			_hitbox.move(3, -3);
+			break;
+
+		default:
+			animationCpt = 0;
+			break;
+		}
 		_posBonhomme.setTextureRect(_rectSprite);
-		dir = 0;
 	}
-	else //Joystick
+	else if (x!=0 || y!=0)//joystick
 	{
 		if (dir != 0)
 		{
@@ -167,7 +167,7 @@ void Bonhomme::move(int &dir,float x, float y, int &animationCpt)
 			}
 		}
 		else
-			animationCpt=0;
+			animationCpt = 0;
 		if (animationCpt == 10)
 		{
 			_rectSprite.left += 32;
