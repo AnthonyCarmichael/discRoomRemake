@@ -19,7 +19,7 @@ public:
 	void setHitboxPosition(int posX, int posY);
 
 	//animation du déplacement selon la direction
-	void move(int dir,float x, float y,int &animationCpt);
+	void move(int &dir,float x, float y,int &animationCpt);
 
 	//draw le RectangleShape ds la window
 	void draw(sf::RenderWindow& window)const;

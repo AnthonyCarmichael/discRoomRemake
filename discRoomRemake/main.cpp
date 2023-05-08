@@ -22,7 +22,6 @@ int main() {
 	int dirX = 0;
 	int dirY = 0;
 	int dir = 0;
-	int dirDiagonale=0;
 	int moveX = 0;
 	int moveY = 0;
 
@@ -135,6 +134,8 @@ int main() {
 						dir = 4;//Droite
 					}
 					break;
+				default:
+					break;
 				}
 			}
 			else if (event.type == Event::JoystickMoved)
@@ -219,7 +220,7 @@ int main() {
 					}
 				}
 				//deadZone pas de movement
-				if (lastX < 0.2 && lastX > -0.2 && lastY < 0.2 && lastY > -0.2)
+				if (lastX < 0.1 && lastX > -0.1 && lastY < 0.1 && lastY > -0.1)
 				{
 					dir = 0;
 				}
@@ -243,7 +244,7 @@ int main() {
 			window.clear(Color::Black);
 
 			//UpDate
-			dir = 0;
+			
 			//bonhommeDisc.move(dir, lastX, lastY);
 
 			//DRAW

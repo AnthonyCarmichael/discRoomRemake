@@ -43,9 +43,9 @@ void Bonhomme::setHitboxPosition(int posX, int posY)
 	_hitbox.setPosition(posX, posY);
 }
 
-void Bonhomme::move(int dir,float x, float y, int &animationCpt)
+void Bonhomme::move(int &dir,float x, float y, int &animationCpt)
 {
-	if (x == 0 && y == 0 )
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		switch (dir)
 		{
@@ -138,11 +138,13 @@ void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 			}
 		}
 		_posBonhomme.setTextureRect(_rectSprite);
+		dir = 0;
 	}
 	else //Joystick
 	{
 		if (dir != 0)
 		{
+			animationCpt++;
 			switch (dir)
 			{
 			case 1:
@@ -160,20 +162,20 @@ void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 			case 4:
 				_rectSprite.top = 96;
 				break;
+			default:
+				break;
 			}
-			animationCpt++;
 		}
 		else
 			animationCpt=0;
-	
-		if (animationCpt == 5)
+		if (animationCpt == 10)
 		{
 			_rectSprite.left += 32;
+			if (_rectSprite.left >= 128)
+			{
+				_rectSprite.left = 0;
+			}
 			animationCpt = 0;
-		}
-		if (_rectSprite.left >= 128)
-		{
-			_rectSprite.left = 0;
 		}
 		_posBonhomme.setTextureRect(_rectSprite);
 		_posBonhomme.move(x, y);
