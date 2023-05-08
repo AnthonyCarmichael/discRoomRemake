@@ -92,7 +92,7 @@ int main() {
 						dir = 1;//bas
 					}
 				break;
-				case Keyboard::Up:
+				case Keyboard::W:
 					if (Keyboard::isKeyPressed(Keyboard::Left))
 					{
 						dir = 7;//haut gauche
@@ -111,7 +111,7 @@ int main() {
 					{
 						dir = 9;//Gauche bas
 					}
-					else if (Keyboard::isKeyPressed(Keyboard::Up))
+					else if (Keyboard::isKeyPressed(Keyboard::W))
 					{
 						dir = 10;//Gauche haut
 					}
@@ -126,7 +126,7 @@ int main() {
 					{
 						dir = 11;//Droite bas
 					}
-					else if (Keyboard::isKeyPressed(Keyboard::Up))
+					else if (Keyboard::isKeyPressed(Keyboard::W))
 					{
 						dir = 12;//Droite haut
 					}
@@ -244,7 +244,6 @@ int main() {
 
 			//UpDate
 			dir = 0;
-			dirDiagonale = 0;
 			//bonhommeDisc.move(dir, lastX, lastY);
 
 			//DRAW

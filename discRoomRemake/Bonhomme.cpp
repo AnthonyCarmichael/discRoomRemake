@@ -143,7 +143,6 @@ void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 	{
 		if (dir != 0)
 		{
-			animationCpt++;
 			switch (dir)
 			{
 			case 1:
@@ -162,22 +161,23 @@ void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 				_rectSprite.top = 96;
 				break;
 			}
+			animationCpt++;
 		}
 		else
 			animationCpt=0;
-		if (animationCpt==10)
+	
+		if (animationCpt == 5)
 		{
 			_rectSprite.left += 32;
-			if (_rectSprite.left >= 128)
-			{
-				_rectSprite.left = 0;
-			}
 			animationCpt = 0;
+		}
+		if (_rectSprite.left >= 128)
+		{
+			_rectSprite.left = 0;
 		}
 		_posBonhomme.setTextureRect(_rectSprite);
 		_posBonhomme.move(x, y);
 		_hitbox.setPosition(_posBonhomme.getPosition().x + 6, _posBonhomme.getPosition().y + 6);
-		
 	}
 	
 }
@@ -185,5 +185,5 @@ void Bonhomme::move(int dir,float x, float y, int &animationCpt)
 void Bonhomme::draw(sf::RenderWindow& window) const
 {
 	window.draw(_posBonhomme);
-	window.draw(_hitbox);
+	//window.draw(_hitbox);
 }
