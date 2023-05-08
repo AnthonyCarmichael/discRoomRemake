@@ -77,13 +77,13 @@ int main() {
 				case Keyboard::Escape:
 					window.close();
 					break;
-				case Keyboard::Down:
+				case Keyboard::S:
 					
-					if (Keyboard::isKeyPressed(Keyboard::Left))
+					if (Keyboard::isKeyPressed(Keyboard::A))
 					{
 						dir=5;//bas gauche
 					}
-					else if (Keyboard::isKeyPressed(Keyboard::Right))
+					else if (Keyboard::isKeyPressed(Keyboard::D))
 					{
 						dir = 6;//bas droite
 					}
@@ -93,11 +93,11 @@ int main() {
 					}
 				break;
 				case Keyboard::W:
-					if (Keyboard::isKeyPressed(Keyboard::Left))
+					if (Keyboard::isKeyPressed(Keyboard::A))
 					{
 						dir = 7;//haut gauche
 					}
-					else if (Keyboard::isKeyPressed(Keyboard::Right))
+					else if (Keyboard::isKeyPressed(Keyboard::D))
 					{
 						dir = 8;//haut droite
 					}
@@ -106,8 +106,8 @@ int main() {
 						dir = 2;//Haut
 					}
 					break;
-				case Keyboard::Left:
-					if (Keyboard::isKeyPressed(Keyboard::Down))
+				case Keyboard::A:
+					if (Keyboard::isKeyPressed(Keyboard::S))
 					{
 						dir = 9;//Gauche bas
 					}
@@ -121,8 +121,8 @@ int main() {
 					}
 
 					break;
-				case Keyboard::Right:
-					if (Keyboard::isKeyPressed(Keyboard::Down))
+				case Keyboard::D:
+					if (Keyboard::isKeyPressed(Keyboard::S))
 					{
 						dir = 11;//Droite bas
 					}
