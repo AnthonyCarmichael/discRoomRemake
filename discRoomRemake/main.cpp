@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <time.h>
 #include "Bonhomme.h"
@@ -18,6 +19,7 @@ int main() {
 	IntRect backgroundSprite(0, 0, 800, 600);
 	Clock clock;
 	/*Time time;*/
+	Sound music;
 
 	int dirX = 0;
 	int dirY = 0;
@@ -38,6 +40,17 @@ int main() {
 
 	window.create(VideoMode(800, 600), "Lost SFML");
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
+	
+	//MUSIQUE
+	sf::SoundBuffer buffer;
+	if (!buffer.loadFromFile("ressources/disc_room2.wav"))
+		return -1;
+	music.setBuffer(buffer);
+	music.setLoop(true);
+	music.play();
+
+
+
 
 	//Écran
 	fondEcran.setSize(Vector2f(800, 600));
