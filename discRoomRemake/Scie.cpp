@@ -6,7 +6,7 @@
 
 void Scie::initScie(int posX, int posY, int w, int h, const sf::IntRect& rectSprite, const char* nomSprite)
 {
-    if (!_textureScie.loadFromFile("ressources/disc_room_charsets.png"))
+    if (!_textureScie.loadFromFile("ressources/disc_room_sprite_saw.png"))
         exit;
     _rectSprite = rectSprite;
 
@@ -14,6 +14,7 @@ void Scie::initScie(int posX, int posY, int w, int h, const sf::IntRect& rectSpr
     _posScie.setPosition(sf::Vector2f(posX, posY));
     _posScie.setTexture(&_textureScie);//Applique la texture à position
     _posScie.setTextureRect(_rectSprite);
+    _cptAnimation = 0;
 }
 
 const sf::Vector2f& Scie::getPosition() const
@@ -49,6 +50,22 @@ void Scie::initMoveScie(bool& move, int& moveX, int& moveY)
     }
    
     _posScie.move(sf::Vector2f(moveX, moveY));
+    _cptAnimation++;
+
+    if (_cptAnimation == 5)
+    {
+        _cptAnimation = 0;
+        _rectSprite.left += 32;
+    }
+
+
+
+    if (_rectSprite.left > 32)
+    {
+        _rectSprite.left = 0;
+    }
+    _posScie.setTextureRect(_rectSprite);
+
 }
 
 void Scie::draw(sf::RenderWindow& window) const

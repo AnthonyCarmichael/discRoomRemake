@@ -5,6 +5,7 @@ private:
 	sf::RectangleShape _posScie;
 	sf::Texture _textureScie;
 	sf::IntRect _rectSprite;
+	int _cptAnimation;
 
 public:
 	void initScie(int posX, int posY, int w, int h, const sf::IntRect& rectSprite, const char* nomSprite);
