@@ -300,6 +300,7 @@ int main() {
 			{
 				system("pause>0");
 			}
+
 			// fin de la frame courante, affichage de tout ce qu'on a dessiné
 			window.display();
 			//clock.restart();
