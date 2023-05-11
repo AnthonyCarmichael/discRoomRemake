@@ -296,15 +296,19 @@ int main() {
 		}
 		
 
-			if (ifCollisionBonhommeScie(scie, bonhommeDisc)) 
-			{
-				system("pause>0");
-			}
+		if (ifCollisionBonhommeScie(scie, bonhommeDisc)) 
+		{
+			system("pause>0");
+		}
 
-			// fin de la frame courante, affichage de tout ce qu'on a dessiné
-			window.display();
-			//clock.restart();
-		//}
+		// fin de la frame courante, affichage de tout ce qu'on a dessiné
+		window.display();
+		//clock.restart();
+		if (menu[1].getFillColor()==Color::Red)
+		{
+			play = true;
+			menubool = false;
+		}
 	}
 	exit(0);
 }
