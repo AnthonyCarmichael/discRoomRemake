@@ -14,12 +14,30 @@ void Scie::initScie(int posX, int posY, int w, int h, const sf::IntRect& rectSpr
     _posScie.setPosition(sf::Vector2f(posX, posY));
     _posScie.setTexture(&_textureScie);//Applique la texture à position
     _posScie.setTextureRect(_rectSprite);
+    _hitbox.setPosition(posX + 4, posY + 4);
+    _hitbox.setSize(sf::Vector2f(w - 8, h - 8));
+    _hitbox.setFillColor(sf::Color::Black);
     _cptAnimation = 0;
 }
 
 const sf::Vector2f& Scie::getPosition() const
 {
     return _posScie.getPosition();
+}
+
+const sf::Vector2f& Scie::getSize() const
+{
+    return _posScie.getSize();
+}
+
+const sf::RectangleShape Scie::getRectangle() const
+{
+    return _posScie;
+}
+
+const sf::RectangleShape Scie::getHitbox() const
+{
+    return _hitbox;
 }
 
 void Scie::setPosition(int posX, int posY)
@@ -50,6 +68,7 @@ void Scie::initMoveScie(bool& move, int& moveX, int& moveY)
     }
    
     _posScie.move(sf::Vector2f(moveX, moveY));
+    _hitbox.move(sf::Vector2f(moveX, moveY));
     _cptAnimation++;
 
     if (_cptAnimation == 5)
@@ -71,4 +90,5 @@ void Scie::initMoveScie(bool& move, int& moveX, int& moveY)
 void Scie::draw(sf::RenderWindow& window) const
 {
     window.draw(_posScie);
+    //window.draw(_hitbox);
 }

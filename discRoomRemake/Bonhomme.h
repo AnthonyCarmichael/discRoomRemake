@@ -14,6 +14,8 @@ public:
 	//retourne et modifie la position du bonhomme
 	const sf::Vector2f& getPosition()const;
 	const sf::Vector2f& getHitboxPosition()const;
+	const sf::RectangleShape getHitbox()const;
+
 	void setPosition(int posX, int posY);
 	void setPosition(const sf::Vector2f& pos);
 	void setHitboxPosition(int posX, int posY);

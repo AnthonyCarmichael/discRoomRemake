@@ -28,6 +28,11 @@ const sf::Vector2f& Bonhomme::getHitboxPosition() const
 	return _hitbox.getPosition();
 }
 
+const sf::RectangleShape Bonhomme::getHitbox() const
+{
+	return _hitbox;
+}
+
 void Bonhomme::setPosition(int posX, int posY)
 {
 	_posBonhomme.setPosition(posX, posY);
