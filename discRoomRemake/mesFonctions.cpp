@@ -132,3 +132,13 @@ bool ifCollisionScie(Scie& scie,bool& move, int& moveX, int& moveY)
     return false;
 
 }
+
+bool ifCollisionBonhommeScie(Scie& scie, Bonhomme& bob)
+{
+    if (bob.getHitbox().getGlobalBounds().intersects(scie.getHitbox().getGlobalBounds()))
+    {
+        return true;
+    }
+    
+    return false;
+}
