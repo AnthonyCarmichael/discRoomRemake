@@ -12,6 +12,7 @@ int main() {
 
 	RenderWindow window;
 	RectangleShape fondEcran;
+	RectangleShape menu[3];
 	Texture textureFondEcran;
 	Scie scie;
 	Bonhomme bonhommeDisc;
@@ -26,13 +27,14 @@ int main() {
 	int dir = 0;
 	int moveX = 0;
 	int moveY = 0;
-
+	int animationCpt = 0;
 	float lastX = 0;
 	float lastY = 0;
 	float temp = 0;
 	bool move = false;
 	bool colision = false;
-	int animationCpt = 0;
+	bool play = false;
+	bool menubool = true;
 
 	srand(time(NULL));
 	//modification max
@@ -49,8 +51,20 @@ int main() {
 	music.setLoop(true);
 	music.play();
 
+	///////////////////////////////////////////////////////////////////////////////
+	//MENU
+	//////////////////////////////////////////////////////////////////////////////
+	
+	for (int i = 0; i < 3; i++)
+	{
+		menu[i].setFillColor(Color::Blue);
+		menu[i].setSize(Vector2f(200, 60));
+		menu[i].setPosition(Vector2f(window.getSize().x / 2 - 100, 100 * i + 200));
+	}
 
 
+	//////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
 
 	//Écran
 	fondEcran.setSize(Vector2f(800, 600));
@@ -61,9 +75,6 @@ int main() {
 
 	//Bonhomme
 	bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
-	/*bonhommeDisc.setPosition(400, 300);*/
-
-	//bonhomme.setFillColor(Color::Blue);
 
 	
 	if (!textureFondEcran.loadFromFile("ressources/disc_room_background2.png"))
@@ -181,7 +192,7 @@ int main() {
 					}
 				}
 				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				// À METTRE EN FONCTIOM
+				// À METTRE EN FONCTIOM SI ON A LE TEMPS
 				// Doit déterminer la valeur la plus importante pour choisir quelle sprite afficher pour le bonhomme
 				// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				//comparer lastX et lastY
@@ -241,35 +252,58 @@ int main() {
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			}
+			else if (event.type == Event::MouseButtonPressed)
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					if (menu[i].getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+						menu[i].setFillColor(Color::Red);
+					else
+						menu[i].setFillColor(Color::Blue);
+				}
+			}
 		}
+
 
 		//time = clock.getElapsedTime();
 
-		//if (time.asMilliseconds() >= 100.0f)
-		//{
-			bonhommeDisc.move(dir, lastX, lastY, animationCpt);
-			ifCollisionBonhomme(bonhommeDisc);
+		bonhommeDisc.move(dir, lastX, lastY, animationCpt);
+		ifCollisionBonhomme(bonhommeDisc);
 			
 
-			//modification max
-			scie.initMoveScie(move, moveX, moveY);
-			ifCollisionScie(scie, move, moveX, moveY);
+		//modification max
+		scie.initMoveScie(move, moveX, moveY);
+		ifCollisionScie(scie, move, moveX, moveY);
 
-			window.clear(Color::Black);
+		window.clear(Color::Black);
 
-			//UpDate
-			
-			//bonhommeDisc.move(dir, lastX, lastY);
+		//DRAW
+		window.draw(fondEcran);
+		if (menubool)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				window.draw(menu[i]);
+			}
 
-			//DRAW
-			window.draw(fondEcran);
+
+		}
+
+		if (play)
+		{
 			scie.draw(window);
 			bonhommeDisc.draw(window);
+		}
+		
 
-			// fin de la frame courante, affichage de tout ce qu'on a dessiné
-			window.display();
-			//clock.restart();
-		//}
+		// fin de la frame courante, affichage de tout ce qu'on a dessiné
+		window.display();
+		//clock.restart();
+		if (menu[1].getFillColor()==Color::Red)
+		{
+			play = true;
+			menubool = false;
+		}
 	}
 	exit(0);
 }
