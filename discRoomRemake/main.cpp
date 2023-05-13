@@ -21,7 +21,7 @@ int main() {
 	IntRect rectSprite(0, 0, 32, 32);
 	IntRect backgroundSprite(0, 0, 800, 600);
 	Clock clock;
-	/*Time time;*/
+	Time timer;
 	Sound musicMenu;
 	Sound musicPlay;
 	Font font;
@@ -53,13 +53,20 @@ int main() {
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
 	
 	//MUSIQUE
-	sf::SoundBuffer buffer;
+	SoundBuffer bufferMenu;
+	SoundBuffer bufferPlay;
 
-	if (!buffer.loadFromFile("ressources/disc_room_menu.wav"))
+	if (!bufferMenu.loadFromFile("ressources/disc_room_menu.wav"))
 		return -1;
-	musicMenu.setBuffer(buffer);
+	musicMenu.setBuffer(bufferMenu);
 	musicMenu.setLoop(true);
 	musicMenu.play();
+
+	if (!bufferPlay.loadFromFile("ressources/disc_room2.wav"))
+		return -1;
+	musicPlay.setBuffer(bufferPlay);
+	musicPlay.setLoop(true);
+	//musicPlay.play();
 
 
 	
@@ -311,6 +318,7 @@ int main() {
 
 		if (play)
 		{
+			
 			window.draw(fondEcranPlay);
 			bonhommeDisc.move(dir, lastX, lastY, animationCpt);
 			ifCollisionBonhomme(bonhommeDisc);
@@ -323,23 +331,32 @@ int main() {
 
 		if (ifCollisionBonhommeScie(scie, bonhommeDisc)) 
 		{
-			system("pause>0");
+			menubool = true;
+			play = false;
+
+			scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png");
+			bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
+			musicPlay.stop();
+			musicMenu.play();
+			
 		}
 
 		// fin de la frame courante, affichage de tout ce qu'on a dessiné
 		window.display();
-		//clock.restart();
+		//
 		if (menu[0].getFillColor()==Color::Black)
 		{
 			menu[0].setFillColor(Color::White);
+			musicMenu.stop();
+			musicPlay.play();
 			play = true;
 			menubool = false;
-
-			if (!buffer.loadFromFile("ressources/disc_room2.wav"))
-				return -1;
-			musicPlay.setBuffer(buffer);
-			musicPlay.setLoop(true);
-			musicPlay.play();
+			clock.restart();
+			
+		}
+		if (menu[1].getFillColor() == Color::Black)
+		{
+			menu[1].setFillColor(Color::White);
 			
 		}
 		if (menu[2].getFillColor() == Color::Black)
