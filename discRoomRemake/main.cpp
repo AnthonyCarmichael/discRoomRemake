@@ -11,16 +11,19 @@ using namespace sf;
 int main() {
 
 	RenderWindow window;
-	RectangleShape fondEcran;
+	RectangleShape fondEcranMenu;
+	RectangleShape fondEcranPlay;
 	RectangleShape menu[3];
-	Texture textureFondEcran;
+	Texture texturefondEcranMenu;
+	Texture texturefondEcranPlay;
 	Scie scie;
 	Bonhomme bonhommeDisc;
 	IntRect rectSprite(0, 0, 32, 32);
 	IntRect backgroundSprite(0, 0, 800, 600);
 	Clock clock;
 	/*Time time;*/
-	Sound music;
+	Sound musicMenu;
+	Sound musicPlay;
 
 	int dirX = 0;
 	int dirY = 0;
@@ -38,18 +41,22 @@ int main() {
 
 	srand(time(NULL));
 	//modification max
-	scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
+	scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png");
 
 	window.create(VideoMode(800, 600), "Lost SFML");
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
 	
 	//MUSIQUE
 	sf::SoundBuffer buffer;
-	if (!buffer.loadFromFile("ressources/disc_room2.wav"))
+
+	if (!buffer.loadFromFile("ressources/disc_room_menu.wav"))
 		return -1;
-	music.setBuffer(buffer);
-	music.setLoop(true);
-	music.play();
+	musicMenu.setBuffer(buffer);
+	musicMenu.setLoop(true);
+	musicMenu.play();
+
+
+	
 
 	///////////////////////////////////////////////////////////////////////////////
 	//MENU
@@ -57,9 +64,9 @@ int main() {
 	
 	for (int i = 0; i < 3; i++)
 	{
-		menu[i].setFillColor(Color::Blue);
-		menu[i].setSize(Vector2f(200, 60));
-		menu[i].setPosition(Vector2f(window.getSize().x / 2 - 100, 100 * i + 200));
+		menu[i].setFillColor(Color::White);
+		menu[i].setSize(Vector2f(100, 20));
+		menu[i].setPosition(Vector2f(window.getSize().x / 2 - 30, 50 * i + 400));
 	}
 
 
@@ -67,21 +74,29 @@ int main() {
 	/////////////////////////////////////////////////////////////////////////////
 
 	//Écran
-	fondEcran.setSize(Vector2f(800, 600));
-	//fondEcran.setOutlineColor(Color::Red);
-	//fondEcran.setOutlineThickness(5);
-	//fondEcran.setFillColor(Color::White);
+	fondEcranMenu.setSize(Vector2f(800, 600));
+	fondEcranPlay.setSize(Vector2f(800, 600));
+	//fondEcranPlay.setOutlineColor(Color::Red);
+	//fondEcranPlay.setOutlineThickness(5);
+	//fondEcranPlay.setFillColor(Color::White);
+
+	if (!texturefondEcranMenu.loadFromFile("ressources/disc_room_menu.png"))
+	{
+		return 1;
+	}
+	fondEcranMenu.setTexture(&texturefondEcranMenu);
+
+	if (!texturefondEcranPlay.loadFromFile("ressources/disc_room_background2BackUp.png"))
+	{
+		return 1;
+	}
+	fondEcranPlay.setTexture(&texturefondEcranPlay);
 	
 
 	//Bonhomme
 	bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
 
-	
-	if (!textureFondEcran.loadFromFile("ressources/disc_room_background2.png"))
-	{
-		return 1;
-	}
-	fondEcran.setTexture(&textureFondEcran);
+
 
 	// on fait tourner le programme jusqu'à ce que la fenêtre soit fermée
 	while (window.isOpen())
@@ -252,49 +267,43 @@ int main() {
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			}
-			else if (event.type == Event::MouseButtonPressed)
+			else if (event.type == Event::MouseButtonPressed && menubool)
 			{
 				for (int i = 0; i < 3; i++)
 				{
 					if (menu[i].getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
-						menu[i].setFillColor(Color::Red);
+						menu[i].setFillColor(Color::Black);
 					else
-						menu[i].setFillColor(Color::Blue);
+						menu[i].setFillColor(Color::White);
 				}
 			}
 		}
 
-
 		//time = clock.getElapsedTime();
-
-		bonhommeDisc.move(dir, lastX, lastY, animationCpt);
-		ifCollisionBonhomme(bonhommeDisc);
-			
-
-		//modification max
-		scie.initMoveScie(move, moveX, moveY);
-		ifCollisionScie(scie, move, moveX, moveY);
-
 		window.clear(Color::Black);
 
 		//DRAW
-		window.draw(fondEcran);
+	
 		if (menubool)
 		{
+			window.draw(fondEcranMenu);
 			for (int i = 0; i < 3; i++)
 			{
 				window.draw(menu[i]);
 			}
-
-
 		}
 
 		if (play)
 		{
+			window.draw(fondEcranPlay);
+			bonhommeDisc.move(dir, lastX, lastY, animationCpt);
+			ifCollisionBonhomme(bonhommeDisc);
+
+			scie.initMoveScie(move, moveX, moveY);
+			ifCollisionScie(scie, move, moveX, moveY);
 			scie.draw(window);
 			bonhommeDisc.draw(window);
 		}
-		
 
 		if (ifCollisionBonhommeScie(scie, bonhommeDisc)) 
 		{
@@ -304,10 +313,22 @@ int main() {
 		// fin de la frame courante, affichage de tout ce qu'on a dessiné
 		window.display();
 		//clock.restart();
-		if (menu[1].getFillColor()==Color::Red)
+		if (menu[0].getFillColor()==Color::Black)
 		{
+			menu[0].setFillColor(Color::White);
 			play = true;
 			menubool = false;
+
+			if (!buffer.loadFromFile("ressources/disc_room2.wav"))
+				return -1;
+			musicPlay.setBuffer(buffer);
+			musicPlay.setLoop(true);
+			musicPlay.play();
+			
+		}
+		if (menu[2].getFillColor() == Color::Black)
+		{
+			exit(0);
 		}
 	}
 	exit(0);
