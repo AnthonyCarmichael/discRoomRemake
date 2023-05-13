@@ -142,3 +142,16 @@ bool ifCollisionBonhommeScie(Scie& scie, Bonhomme& bob)
     
     return false;
 }
+
+void setText(sf::Text& text, const char* message, sf::Font& font, const char* police, int posX, int posY, int taille, const sf::Color& color, int style)
+{
+    if (!font.loadFromFile(police))
+        exit(1);
+
+    text.setFont(font); //Set la police à utiliser (elle doit avoir été loadée)
+    text.setString(message);		//Set le texte à afficher
+    text.setCharacterSize(taille); 			//Set la taille (en pixels)
+    text.setFillColor(color);			//Set la couleur du texte
+    text.setStyle(style);	//Set le style du texte
+    text.setPosition(posX, posY);
+}

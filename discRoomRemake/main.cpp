@@ -24,6 +24,12 @@ int main() {
 	/*Time time;*/
 	Sound musicMenu;
 	Sound musicPlay;
+	Font font;
+	Text txt1;
+	Text txt2;
+	Text txt3;
+
+
 
 	int dirX = 0;
 	int dirY = 0;
@@ -67,7 +73,14 @@ int main() {
 		menu[i].setFillColor(Color::White);
 		menu[i].setSize(Vector2f(100, 20));
 		menu[i].setPosition(Vector2f(window.getSize().x / 2 - 30, 50 * i + 400));
+		if (i==0)
+			setText(txt1, "Play", font, "ressources/arial.ttf", window.getSize().x / 2, 50 * i + 400, 16, Color::Black, 0);
+		if (i==1)
+			setText(txt2, "Info", font, "ressources/arial.ttf", window.getSize().x / 2, 50 * i + 400, 16, Color::Black, 0);
+		if (i==2)
+			setText(txt3, "Quit", font, "ressources/arial.ttf", window.getSize().x / 2, 50 * i + 400, 16, Color::Black, 0);
 	}
+	
 
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -290,6 +303,9 @@ int main() {
 			for (int i = 0; i < 3; i++)
 			{
 				window.draw(menu[i]);
+				window.draw(txt1);
+				window.draw(txt2);
+				window.draw(txt3);
 			}
 		}
 
