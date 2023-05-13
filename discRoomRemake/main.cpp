@@ -28,8 +28,7 @@ int main() {
 	Text txt1;
 	Text txt2;
 	Text txt3;
-
-
+	Text txtInfo;
 
 	int dirX = 0;
 	int dirY = 0;
@@ -40,6 +39,7 @@ int main() {
 	float lastX = 0;
 	float lastY = 0;
 	float temp = 0;
+	bool firstStart = true;
 	bool move = false;
 	bool colision = false;
 	bool play = false;
@@ -60,17 +60,13 @@ int main() {
 		return -1;
 	musicMenu.setBuffer(bufferMenu);
 	musicMenu.setLoop(true);
-	musicMenu.play();
+
 
 	if (!bufferPlay.loadFromFile("ressources/disc_room2.wav"))
 		return -1;
 	musicPlay.setBuffer(bufferPlay);
 	musicPlay.setLoop(true);
-	//musicPlay.play();
-
-
 	
-
 	///////////////////////////////////////////////////////////////////////////////
 	//MENU
 	//////////////////////////////////////////////////////////////////////////////
@@ -87,6 +83,8 @@ int main() {
 		if (i==2)
 			setText(txt3, "Quit", font, "ressources/arial.ttf", window.getSize().x / 2, 50 * i + 400, 16, Color::Black, 0);
 	}
+
+	//setText(txtInfo, "Tuto", font, "ressources/arial.ttf", 0,0, 16, Color::Black, 0);
 	
 
 
@@ -111,6 +109,7 @@ int main() {
 		return 1;
 	}
 	fondEcranPlay.setTexture(&texturefondEcranPlay);
+	window.draw(fondEcranMenu);
 	
 
 	//Bonhomme
@@ -307,6 +306,13 @@ int main() {
 		if (menubool)
 		{
 			window.draw(fondEcranMenu);
+			if (firstStart)
+			{
+				musicMenu.play();
+				firstStart = false;
+			}
+				;
+
 			for (int i = 0; i < 3; i++)
 			{
 				window.draw(menu[i]);
@@ -318,7 +324,6 @@ int main() {
 
 		if (play)
 		{
-			
 			window.draw(fondEcranPlay);
 			bonhommeDisc.move(dir, lastX, lastY, animationCpt);
 			ifCollisionBonhomme(bonhommeDisc);
@@ -341,9 +346,8 @@ int main() {
 			
 		}
 
-		// fin de la frame courante, affichage de tout ce qu'on a dessiné
 		window.display();
-		//
+		//arrive une fois selon le choix du menu
 		if (menu[0].getFillColor()==Color::Black)
 		{
 			menu[0].setFillColor(Color::White);
@@ -356,6 +360,7 @@ int main() {
 		}
 		if (menu[1].getFillColor() == Color::Black)
 		{
+
 			menu[1].setFillColor(Color::White);
 			
 		}
