@@ -49,6 +49,7 @@ int main() {
 	bool colision = false;
 	bool play = false;
 	bool menubool = true;
+	std::string nomJoueurTemp="";
 	
 
 	std::vector<Score> listeScore;
@@ -92,7 +93,9 @@ int main() {
 			setText(txt3, "Quit", font, "ressources/arial.ttf", window.getSize().x / 2, 50 * i + 400, 16, Color::Black, 0);
 	}
 
-	//setText(txtInfo, "Tuto", font, "ressources/arial.ttf", 0,0, 16, Color::Black, 0);
+	setText(txtInfo, "Entrer votre nom (trois lettres): ", font, "ressources/arial.ttf", 400, 0,24 , Color::Yellow, 0);
+
+	setText(nomJoueur, "", font, "ressources/arial.ttf", 750, 0, 24, Color::Yellow, 0);
 	
 
 
@@ -303,7 +306,19 @@ int main() {
 						menu[i].setFillColor(Color::White);
 				}
 			}
-		}
+			if (event.type == sf::Event::TextEntered && nomJoueurTemp.length()<3)
+			{
+				if (event.text.unicode < 128)
+				{
+					std::cout << "ASCII character typed: " << static_cast<char>(event.text.unicode) << std::endl;
+					nomJoueurTemp += static_cast<char>(event.text.unicode);
+
+					nomJoueur.setString(nomJoueurTemp);
+				}
+				
+				
+			}
+		}//FIN POLL EVENT
 
 		window.clear(Color::Black);
 
@@ -311,20 +326,34 @@ int main() {
 	
 		if (menubool)
 		{
+			
 			window.draw(fondEcranMenu);
+
 			if (firstStart)
 			{
 				musicMenu.play();
 				firstStart = false;
 			}
-				;
-
-			for (int i = 0; i < 3; i++)
+			if (nomJoueurTemp.length()== 3)
 			{
-				window.draw(menu[i]);
-				window.draw(txt1);
-				window.draw(txt2);
-				window.draw(txt3);
+
+				window.draw(nomJoueur);
+			
+
+				for (int i = 0; i < 3; i++)
+				{
+					window.draw(menu[i]);
+					window.draw(txt1);
+					window.draw(txt2);
+					window.draw(txt3);
+				}
+				
+			}
+			else
+			{
+				window.draw(txtInfo);
+				window.draw(nomJoueur);
+				
 			}
 		}
 
@@ -332,6 +361,7 @@ int main() {
 		{
 			
 			window.draw(fondEcranPlay);
+			window.draw(nomJoueur);
 			bonhommeDisc.move(dir, lastX, lastY, animationCpt);
 			ifCollisionBonhomme(bonhommeDisc);
 
