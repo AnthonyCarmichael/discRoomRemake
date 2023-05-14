@@ -430,6 +430,7 @@ int main() {
 			musicPlay.play();
 			play = true;
 			menubool = false;
+			info = false;
 			clock.restart();
 			
 		}
