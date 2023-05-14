@@ -308,7 +308,7 @@ int main() {
 			}
 			if (event.type == sf::Event::TextEntered && nomJoueurTemp.length()<3)
 			{
-				if (event.text.unicode < 128)
+				if (event.text.unicode >= 65 && event.text.unicode <= 90 || event.text.unicode >= 97 && event.text.unicode <=122 )
 				{
 					std::cout << "ASCII character typed: " << static_cast<char>(event.text.unicode) << std::endl;
 					nomJoueurTemp += static_cast<char>(event.text.unicode);
