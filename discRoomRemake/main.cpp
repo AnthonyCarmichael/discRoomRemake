@@ -53,8 +53,10 @@ int main() {
 	bool firstStart = true;
 	bool move = false;
 	bool colision = false;
-	bool play = false;
 	bool menubool = true;
+	bool play = false;
+	bool info = false;
+
 	std::string nomJoueurTemp="";
 	
 
@@ -349,19 +351,6 @@ int main() {
 			{
 
 				window.draw(nomJoueur);
-				txtInfo.setString("HIGHSCORE");
-				txtInfo.setPosition(600, 80);
-				window.draw(txtInfo);
-
-				for (int i = 0; i < tableauScore.size(); i++)
-				{
-					txtHighScore1.setString(tableauScore.at(i).getNom());
-					txtHighScore1.setPosition(600, 100 + ((i + 1) * 20));
-					txtHighScore2.setString(std::to_string(tableauScore.at(i).getTime()));
-					txtHighScore2.setPosition(650, 100 + ((i + 1) * 20));
-					window.draw(txtHighScore1);
-					window.draw(txtHighScore2);
-				}
 
 				for (int i = 0; i < 3; i++)
 				{
@@ -398,6 +387,23 @@ int main() {
 			window.draw(txtTimer);
 		}
 
+		if (info)
+		{
+			txtInfo.setString("HIGHSCORE");
+			txtInfo.setPosition(600, 80);
+			window.draw(txtInfo);
+
+			for (int i = 0; i < tableauScore.size(); i++)
+			{
+				txtHighScore1.setString(tableauScore.at(i).getNom());
+				txtHighScore1.setPosition(600, 100 + ((i + 1) * 20));
+				txtHighScore2.setString(std::to_string(tableauScore.at(i).getTime()));
+				txtHighScore2.setPosition(650, 100 + ((i + 1) * 20));
+				window.draw(txtHighScore1);
+				window.draw(txtHighScore2);
+			}
+		}
+
 		if (ifCollisionBonhommeScie(scie, bonhommeDisc)) 
 		{
 			timer = clock.getElapsedTime();
@@ -429,8 +435,16 @@ int main() {
 		}
 		if (menu[1].getFillColor() == Color::Black)
 		{
-
+			if (!info)
+			{
+				info = true;
+			}
+			else
+			{
+				info = false;
+			}
 			menu[1].setFillColor(Color::White);
+
 			
 		}
 		if (menu[2].getFillColor() == Color::Black)
