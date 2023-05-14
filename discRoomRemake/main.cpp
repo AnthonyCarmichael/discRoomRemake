@@ -33,6 +33,8 @@ int main() {
 	Text txt1;
 	Text txt2;
 	Text txt3;
+	Text txtHighScore1;
+	Text txtHighScore2;
 	Text txtInfo;
 	Text txtTimer;
 	Text nomJoueur;
@@ -56,13 +58,11 @@ int main() {
 	std::string nomJoueurTemp="";
 	
 
-	std::vector<Score> listeScore;
-
 	srand(time(NULL));
 	//modification max
 	scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png");
 
-	window.create(VideoMode(800, 600), "Lost SFML");
+	window.create(VideoMode(800, 600), "Disc Room Remake");
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
 	
 	//MUSIQUE
@@ -102,6 +102,11 @@ int main() {
 	setText(nomJoueur, "", font, "ressources/arial.ttf", 750, 0, 24, Color::Yellow, 0);
 
 	setText(txtTimer, "", font, "ressources/arial.ttf", 600, 525, 24, Color::Yellow, 0);
+
+	setText(txtHighScore1, "", font, "ressources/arial.ttf", 600, 525, 14, Color::Yellow, 0);
+
+	setText(txtHighScore2, "", font, "ressources/arial.ttf", 600, 525, 14, Color::Yellow, 0);
+
 	
 
 
@@ -344,7 +349,19 @@ int main() {
 			{
 
 				window.draw(nomJoueur);
-			
+				txtInfo.setString("HIGHSCORE");
+				txtInfo.setPosition(600, 80);
+				window.draw(txtInfo);
+
+				for (int i = 0; i < tableauScore.size(); i++)
+				{
+					txtHighScore1.setString(tableauScore.at(i).getNom());
+					txtHighScore1.setPosition(600, 100 + ((i + 1) * 20));
+					txtHighScore2.setString(std::to_string(tableauScore.at(i).getTime()));
+					txtHighScore2.setPosition(650, 100 + ((i + 1) * 20));
+					window.draw(txtHighScore1);
+					window.draw(txtHighScore2);
+				}
 
 				for (int i = 0; i < 3; i++)
 				{
