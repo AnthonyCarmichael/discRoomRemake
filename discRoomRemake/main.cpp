@@ -1,9 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <map>
 #include <time.h>
 #include "Bonhomme.h"
-#include"Scie.h"
+#include "Scie.h"
+#include "Score.h"
 #include"mesFonctions.h"
 
 using namespace sf;
@@ -29,6 +33,7 @@ int main() {
 	Text txt2;
 	Text txt3;
 	Text txtInfo;
+	Text nomJoueur;
 
 	int dirX = 0;
 	int dirY = 0;
@@ -44,6 +49,9 @@ int main() {
 	bool colision = false;
 	bool play = false;
 	bool menubool = true;
+	
+
+	std::vector<Score> listeScore;
 
 	srand(time(NULL));
 	//modification max
@@ -109,8 +117,7 @@ int main() {
 		return 1;
 	}
 	fondEcranPlay.setTexture(&texturefondEcranPlay);
-	window.draw(fondEcranMenu);
-	
+
 
 	//Bonhomme
 	bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
@@ -298,7 +305,6 @@ int main() {
 			}
 		}
 
-		//time = clock.getElapsedTime();
 		window.clear(Color::Black);
 
 		//DRAW
@@ -324,6 +330,7 @@ int main() {
 
 		if (play)
 		{
+			
 			window.draw(fondEcranPlay);
 			bonhommeDisc.move(dir, lastX, lastY, animationCpt);
 			ifCollisionBonhomme(bonhommeDisc);
@@ -332,10 +339,13 @@ int main() {
 			ifCollisionScie(scie, move, moveX, moveY);
 			scie.draw(window);
 			bonhommeDisc.draw(window);
+			timer = clock.getElapsedTime();
+			std::cout << timer.asMilliseconds() << std::endl;
 		}
 
 		if (ifCollisionBonhommeScie(scie, bonhommeDisc)) 
 		{
+			timer = clock.getElapsedTime();
 			menubool = true;
 			play = false;
 

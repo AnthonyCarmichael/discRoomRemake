@@ -1,8 +1,13 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <fstream>
+#include <vector>
 #include "Bonhomme.h"
-#include"Scie.h"
+#include "Scie.h"
+#include "Score.h"
 #include "mesFonctions.h"
 
+using namespace std;
 
 bool ifCollisionBonhomme(Bonhomme& bob)
 {
@@ -154,4 +159,13 @@ void setText(sf::Text& text, const char* message, sf::Font& font, const char* po
     text.setFillColor(color);			//Set la couleur du texte
     text.setStyle(style);	//Set le style du texte
     text.setPosition(posX, posY);
+}
+
+void afficherTableauScore(std::vector<Score>& tableauScore)
+{
+    cout << endl << endl;
+    for (int i = 0; i < tableauScore.size(); i++) {
+        cout << tableauScore.at(i);
+    }
+    cout << endl << endl;
 }

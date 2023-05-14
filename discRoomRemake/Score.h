@@ -23,3 +23,6 @@ public:
 	bool operator<(const Score& autreScore)const;
 	bool operator==(const Score& autreScore)const;
 };
+
+std::ostream& operator<<(std::ostream& sortie, const Score& score);
+std::istream& operator>>(std::istream& entree, Score& score);
