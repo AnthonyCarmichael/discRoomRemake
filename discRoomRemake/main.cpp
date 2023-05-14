@@ -22,6 +22,7 @@ int main() {
 	Texture texturefondEcranPlay;
 	Scie scie;
 	Bonhomme bonhommeDisc;
+	Score scoreJoueurActif;
 	IntRect rectSprite(0, 0, 32, 32);
 	IntRect backgroundSprite(0, 0, 800, 600);
 	Clock clock;
@@ -33,7 +34,10 @@ int main() {
 	Text txt2;
 	Text txt3;
 	Text txtInfo;
+	Text txtTimer;
 	Text nomJoueur;
+
+	std::vector<Score> tableauScore;
 
 	int dirX = 0;
 	int dirY = 0;
@@ -93,9 +97,11 @@ int main() {
 			setText(txt3, "Quit", font, "ressources/arial.ttf", window.getSize().x / 2, 50 * i + 400, 16, Color::Black, 0);
 	}
 
-	setText(txtInfo, "Entrer votre nom (trois lettres): ", font, "ressources/arial.ttf", 400, 0,24 , Color::Yellow, 0);
+	setText(txtInfo, "Entrer un nom (trois lettres): ", font, "ressources/arial.ttf", 400, 0,24 , Color::Yellow, 0);
 
 	setText(nomJoueur, "", font, "ressources/arial.ttf", 750, 0, 24, Color::Yellow, 0);
+
+	setText(txtTimer, "", font, "ressources/arial.ttf", 600, 525, 24, Color::Yellow, 0);
 	
 
 
@@ -370,15 +376,21 @@ int main() {
 			scie.draw(window);
 			bonhommeDisc.draw(window);
 			timer = clock.getElapsedTime();
-			std::cout << timer.asMilliseconds() << std::endl;
+			std::cout << timer.asSeconds() << std::endl;
+			txtTimer.setString(std::to_string(timer.asSeconds()));
+			window.draw(txtTimer);
 		}
 
 		if (ifCollisionBonhommeScie(scie, bonhommeDisc)) 
 		{
 			timer = clock.getElapsedTime();
+			scoreJoueurActif.setScore(nomJoueurTemp, timer.asSeconds());
+			tableauScore.push_back(scoreJoueurActif);
+			scoreJoueurActif.print(std::cout);
+
 			menubool = true;
 			play = false;
-
+	
 			scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png");
 			bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
 			musicPlay.stop();

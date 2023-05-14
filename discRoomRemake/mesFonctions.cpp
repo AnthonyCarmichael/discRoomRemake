@@ -169,3 +169,23 @@ void afficherTableauScore(std::vector<Score>& tableauScore)
     }
     cout << endl << endl;
 }
+
+void insertionSort(vector<Score>& tableauScore)
+{
+    Score temp;
+    int i, j;
+
+    for (i = 1; i < tableauScore.size(); i++)
+    {
+        temp = tableauScore.at(i);
+
+        for (j = i - 1; j >= 0; j--)
+        {
+            if (temp > tableauScore.at(j))
+                break;
+            else
+                tableauScore.at(j + 1) = tableauScore.at(j);
+        }
+        tableauScore.at(j + 1) = temp;
+    }
+}
