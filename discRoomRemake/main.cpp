@@ -434,9 +434,7 @@ int main() {
 			if (ifCollisionBonhommeScie(scies.at(i), bonhommeDisc))
 			{
 				colision = true;
-			
 			}
-			
 		}
 		if (colision == true)
 		{
