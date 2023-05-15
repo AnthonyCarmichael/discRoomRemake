@@ -387,7 +387,7 @@ int main() {
 			timer = clock.getElapsedTime();
 			std::cout << timer.asSeconds() << std::endl;
 			timeRun = round(timer.asSeconds()*100)/100;
-			txtTimer.setString(std::to_string(timeRun));
+			txtTimer.setString(std::to_string(timeRun).substr(0,4));
 			window.draw(txtTimer);
 		}
 
@@ -400,11 +400,11 @@ int main() {
 			for (int i = 0; i < tableauScore.size(); i++)
 			{
 				txtPosition.setString(std::to_string(i + 1));
-				txtPosition.setPosition(600, 100 + ((i + 1) * 20));
+				txtPosition.setPosition(610, 100 + ((i + 1) * 20));
 				txtHighScore1.setString(tableauScore.at(i).getNom());
-				txtHighScore1.setPosition(625, 100 + ((i + 1) * 20));
-				txtHighScore2.setString(std::to_string(tableauScore.at(i).getTime()));
-				txtHighScore2.setPosition(660, 100 + ((i + 1) * 20));
+				txtHighScore1.setPosition(635, 100 + ((i + 1) * 20));
+				txtHighScore2.setString(std::to_string(tableauScore.at(i).getTime()).substr(0, 4));
+				txtHighScore2.setPosition(670, 100 + ((i + 1) * 20));
 				window.draw(txtPosition);
 				window.draw(txtHighScore1);
 				window.draw(txtHighScore2);
