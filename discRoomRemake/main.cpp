@@ -391,7 +391,7 @@ int main() {
 			timer = clock.getElapsedTime();
 			std::cout << timer.asSeconds() << std::endl;
 			timeRun = round(timer.asSeconds()*100)/100;
-			txtTimer.setString(std::to_string(timeRun).substr(0,4));
+			txtTimer.setString(std::to_string(timeRun).erase(std::to_string(timeRun).size()-4, 4));
 			window.draw(txtTimer);
 		}
 
@@ -407,7 +407,7 @@ int main() {
 				txtPosition.setPosition(610, 100 + ((i + 1) * 20));
 				txtHighScore1.setString(tableauScore.at(i).getNom());
 				txtHighScore1.setPosition(635, 100 + ((i + 1) * 20));
-				txtHighScore2.setString(std::to_string(tableauScore.at(i).getTime()).substr(0, 4));
+				txtHighScore2.setString(std::to_string(tableauScore.at(i).getTime()).erase(std::to_string(tableauScore.at(i).getTime()).size()-4, 4));
 				txtHighScore2.setPosition(670, 100 + ((i + 1) * 20));
 				window.draw(txtPosition);
 				window.draw(txtHighScore1);
