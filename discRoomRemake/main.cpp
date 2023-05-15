@@ -69,10 +69,11 @@ int main() {
 	window.create(VideoMode(800, 600), "Lost SFML");
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
 	//modification max
-	scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png");
-	scies.push_back(scie);
-		
-
+	for (int i = 0; i < 10; i++)
+	{
+		scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
+		scies.push_back(scie);
+	}
 	
 	//MUSIQUE
 	SoundBuffer bufferMenu;
@@ -433,7 +434,8 @@ int main() {
 				{
 					tableauScore.erase(tableauScore.begin() + tableauScore.size() - 1);
 				}
-
+				ouvrirFichierEcriture(ecriture, "ressources/scores.txt");
+				ecrireFichier(ecriture, tableauScore);
 
 				menubool = true;
 				play = false;
