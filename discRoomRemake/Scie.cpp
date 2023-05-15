@@ -6,7 +6,7 @@
 
 
 
-void Scie::initScie(int posX, int posY, int w, int h, const sf::IntRect& rectSprite, const char* nomSprite)
+void Scie::initScie(int posX, int posY, int w, int h, const sf::IntRect& rectSprite, const char* nomSprite, int type)
 {
     if (!_textureScie.loadFromFile(nomSprite))
         exit;
@@ -20,6 +20,10 @@ void Scie::initScie(int posX, int posY, int w, int h, const sf::IntRect& rectSpr
     _hitbox.setSize(sf::Vector2f(w - 8, h - 8));
     _hitbox.setFillColor(sf::Color::Black);
     _cptAnimation = 0;
+    _type = type;
+    _move = false;
+    _moveX = 0;
+    _moveY = 0;
 }
 
 const sf::Vector2f& Scie::getPosition() const
@@ -42,6 +46,16 @@ const sf::RectangleShape Scie::getHitbox() const
     return _hitbox;
 }
 
+int Scie::getMoveX() const
+{
+    return _moveX;
+}
+
+int Scie::getMoveY() const
+{
+    return _moveY;
+}
+
 void Scie::setPosition(int posX, int posY)
 {
     assert(posX > 0);
@@ -55,22 +69,32 @@ void Scie::setPosition(const sf::Vector2f& pos)
     _posScie.setPosition(sf::Vector2f(pos));
 }
 
-void Scie::initMoveScie(bool& move, int& moveX, int& moveY)
+void Scie::setMoveX(int moveX)
+{
+    _moveX = moveX;
+}
+
+void Scie::setMoveY(int moveY)
+{
+    _moveY = moveY;
+}
+
+void Scie::initMoveScie()
 {
 
-    if (!move) 
+    if (!_move) 
     {
         do {
-            moveX = rand() % (0 + 1 - -1) + -1;
-            moveY = rand() % (0 + 1 - -1) + -1;
-            move = true;
-        } while (moveX == 0 || moveY == 0);
-        moveX = moveX * 5;
-        moveY = moveY * 5;
+            _moveX = rand() % (1 + 1 - -1) + -1;
+            _moveY = rand() % (1 + 1 - -1) + -1;
+            _move = true;
+        } while (_moveX == 0 || _moveY == 0);
+        _moveX = _moveX * 5;
+        _moveY = _moveY * 5;
     }
    
-    _posScie.move(sf::Vector2f(moveX, moveY));
-    _hitbox.move(sf::Vector2f(moveX, moveY));
+    _posScie.move(sf::Vector2f(_moveX, _moveY));
+    _hitbox.move(sf::Vector2f(_moveX, _moveY));
     _cptAnimation++;
 
     if (_cptAnimation == 5)

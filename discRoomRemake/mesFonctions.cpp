@@ -72,65 +72,65 @@ bool ifCollisionBonhomme(Bonhomme& bob)
 
 }
 
-bool ifCollisionScie(Scie& scie,bool& move, int& moveX, int& moveY)
+bool ifCollisionScie(Scie& scie)
 {
     if (scie.getPosition().x > 700 - 32 && scie.getPosition().y < 100)
     {
-    moveX = moveX / -1;
-    moveY = moveY / -1;
-    scie.initMoveScie(move, moveX, moveY);
+        scie.setMoveX(scie.getMoveX() / -1);
+        scie.setMoveY(scie.getMoveY() / -1);
+        scie.initMoveScie();
     return true;
     }
 
     else if (scie.getPosition().x > 700 - 32 && scie.getPosition().y > 500 - 32)
     {
-    moveX = moveX / -1;
-    moveY = moveY / -1;
-    scie.initMoveScie(move, moveX, moveY);
+        scie.setMoveX(scie.getMoveX() / -1);
+        scie.setMoveY(scie.getMoveY() / -1);
+        scie.initMoveScie();
     return true;
     }
 
     else if (scie.getPosition().x < 100 && scie.getPosition().y < 100)
     {
-    moveX = moveX / -1;
-    moveY = moveY / -1;
-    scie.initMoveScie(move, moveX, moveY);
+        scie.setMoveX(scie.getMoveX() / -1);
+        scie.setMoveY(scie.getMoveY() / -1);
+        scie.initMoveScie();
     return true;
     }
 
     else if (scie.getPosition().x < 100 && scie.getPosition().y > 500 - 32)
     {
-    moveX = moveX / -1;
-    moveY = moveY / -1;
-    scie.initMoveScie(move, moveX, moveY);
+        scie.setMoveX(scie.getMoveX() / -1);
+        scie.setMoveY(scie.getMoveY() / -1);
+        scie.initMoveScie();
     return true;
     }
 
     else if (scie.getPosition().x > 700 - 32)
     {
-        moveX = moveX / -1;
-        scie.initMoveScie(move, moveX, moveY);
+        scie.setMoveX(scie.getMoveX() / -1);
+        scie.initMoveScie();
         return true;
     }
 
     else if (scie.getPosition().x < 100)
     {
-        moveX = moveX / -1;
-        scie.initMoveScie(move, moveX, moveY);
+        scie.setMoveX(scie.getMoveX() / -1);
+        scie.initMoveScie();
         return true;
     }
 
     else if (scie.getPosition().y > 500 - 32)
     {
-        moveY = moveY / -1;
-        scie.initMoveScie(move, moveX, moveY);
+        scie.setMoveY(scie.getMoveY() / -1);
+        scie.initMoveScie();
         return true;
     }
 
     else if (scie.getPosition().y < 100)
     {
-        moveY = moveY / -1;
-        scie.initMoveScie(move, moveX, moveY);
+        scie.setMoveY(scie.getMoveY() / -1);
+        scie.initMoveScie();
         return true;
     }
 

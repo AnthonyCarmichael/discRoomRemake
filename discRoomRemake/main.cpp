@@ -50,15 +50,12 @@ int main() {
 	int dirX = 0;
 	int dirY = 0;
 	int dir = 0;
-	int moveX = 0;
-	int moveY = 0;
 	int animationCpt = 0;
 	float lastX = 0;
 	float lastY = 0;
 	float temp = 0;
 	float timeRun;
 	bool firstStart = true;
-	bool move = false;
 	bool colision = false;
 	bool menubool = true;
 	bool play = false;
@@ -388,9 +385,13 @@ int main() {
 			bonhommeDisc.move(dir, lastX, lastY, animationCpt);
 			ifCollisionBonhomme(bonhommeDisc);
 
-			scies.at(0).initMoveScie(move, moveX, moveY);
-			ifCollisionScie(scies.at(0), move, moveX, moveY);
-			scies.at(0).draw(window);
+			for (int i = 0; i < 10; i++) 
+			{
+				scies.at(i).initMoveScie();
+				ifCollisionScie(scies.at(i));
+				scies.at(i).draw(window);
+			}
+			
 			bonhommeDisc.draw(window);
 			timer = clock.getElapsedTime();
 			std::cout << timer.asSeconds() << std::endl;
@@ -419,29 +420,36 @@ int main() {
 			}
 		}
 
-		if (ifCollisionBonhommeScie(scies.at(0), bonhommeDisc))
+		for (int i = 0; i < 10; i++)
 		{
-			timer = clock.getElapsedTime();
-			scoreJoueurActif.setScore(nomJoueurTemp, round(timer.asSeconds()*100)/100);
-			tableauScore.push_back(scoreJoueurActif);
-			scoreJoueurActif.print(std::cout);
-			insertionSort(tableauScore);
-			if (tableauScore.size()==21)
+			if (ifCollisionBonhommeScie(scies.at(i), bonhommeDisc))
 			{
-				tableauScore.erase(tableauScore.begin() + tableauScore.size()-1);
-			}
-			ouvrirFichierEcriture(ecriture, "ressources/scores.txt");
-			ecrireFichier(ecriture, tableauScore);
+				timer = clock.getElapsedTime();
+				scoreJoueurActif.setScore(nomJoueurTemp, round(timer.asSeconds() * 100) / 100);
+				tableauScore.push_back(scoreJoueurActif);
+				scoreJoueurActif.print(std::cout);
+				insertionSort(tableauScore);
+				if (tableauScore.size() == 21)
+				{
+					tableauScore.erase(tableauScore.begin() + tableauScore.size() - 1);
+				}
 
-			menubool = true;
-			play = false;
-	
-			scies.at(0).initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png");
-			bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
-			musicPlay.stop();
-			musicMenu.play();
-			
+
+				menubool = true;
+				play = false;
+
+				for (int i = 0; i < 10; i++) 
+				{
+					scies.at(i).initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
+				}
+				
+				bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
+				musicPlay.stop();
+				musicMenu.play();
+
+			}
 		}
+		
 
 		window.display();
 		//arrive une fois selon le choix du menu
