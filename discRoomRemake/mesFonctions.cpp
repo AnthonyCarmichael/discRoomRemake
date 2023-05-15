@@ -180,3 +180,28 @@ void insertionSort(std::vector<Score>& tableauScore)
         tableauScore.at(j + 1) = temp;
     }
 }
+
+void ouvrirFichier(std::ifstream& monFlux, std::string nomFichier)
+{
+    monFlux.open(nomFichier);
+
+    if (!monFlux || monFlux.peek() == EOF)
+    {
+        cout << "Fichier introuvable";
+        system("pause>0");
+        exit(1);
+    }
+}
+
+void lireFichier(std::ifstream& monFlux, vector<Score>& listeCoureurs)
+{
+    Score scoreTemp;
+
+    while (!monFlux.eof())
+    {
+        //monFlux >> nom >> time;
+        scoreTemp.read(monFlux);
+        //coureurTemp.setCoureur(nom, prenom, temps);
+        listeCoureurs.push_back(scoreTemp);
+    }
+}
