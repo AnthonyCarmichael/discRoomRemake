@@ -89,7 +89,7 @@ int main() {
 	musicMenu.setLoop(true);
 
 
-	if (!bufferPlay.loadFromFile("ressources/disc_room2.wav"))
+	if (!bufferPlay.loadFromFile("ressources/disc_room3.wav"))
 		return -1;
 	musicPlay.setBuffer(bufferPlay);
 	musicPlay.setLoop(true);
