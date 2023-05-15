@@ -71,9 +71,12 @@ int main() {
 	//modification max
 	for (int i = 0; i < 10; i++)
 	{
-		scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
+		scie.initScie(32, 32, rectSprite, "ressources/disc_room_sprite_saw.png",1);
 		scies.push_back(scie);
 	}
+	
+		
+
 	
 	//MUSIQUE
 	SoundBuffer bufferMenu;
@@ -145,7 +148,7 @@ int main() {
 
 
 	//Bonhomme
-	bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
+	bonhommeDisc.init(150, 150, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
 
 
 
@@ -442,10 +445,10 @@ int main() {
 
 				for (int i = 0; i < 10; i++) 
 				{
-					scies.at(i).initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
+					scies.at(i).initScie(32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
 				}
 				
-				bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
+				bonhommeDisc.init(150, 150, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
 				musicPlay.stop();
 				musicMenu.play();
 

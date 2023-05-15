@@ -6,17 +6,20 @@
 
 
 
-void Scie::initScie(int posX, int posY, int w, int h, const sf::IntRect& rectSprite, const char* nomSprite, int type)
+void Scie::initScie(int w, int h, const sf::IntRect& rectSprite, const char* nomSprite, int type)
 {
     if (!_textureScie.loadFromFile(nomSprite))
         exit;
     _rectSprite = rectSprite;
 
+    _posX = rand() % (668 + 1 - 100) + 100;
+    _posY = rand() % (468 + 1 - 100) + 100;
+
     _posScie.setSize(sf::Vector2f(w, h));
-    _posScie.setPosition(sf::Vector2f(posX, posY));
+    _posScie.setPosition(sf::Vector2f(_posX, _posY));
     _posScie.setTexture(&_textureScie);//Applique la texture à position
     _posScie.setTextureRect(_rectSprite);
-    _hitbox.setPosition(posX + 4, posY + 4);
+    _hitbox.setPosition(_posX + 4, _posY + 4);
     _hitbox.setSize(sf::Vector2f(w - 8, h - 8));
     _hitbox.setFillColor(sf::Color::Black);
     _cptAnimation = 0;

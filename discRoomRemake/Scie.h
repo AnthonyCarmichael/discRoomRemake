@@ -11,9 +11,11 @@ private:
 	bool _move;
 	int _moveX;
 	int _moveY;
+	int _posX;
+	int _posY;
 public:
 	
-	void initScie(int posX, int posY, int w, int h, const sf::IntRect& rectSprite, const char* nomSprite, int type);
+	void initScie(int w, int h, const sf::IntRect& rectSprite, const char* nomSprite, int type);
 
 	const sf::Vector2f& getPosition()const;
 	const sf::Vector2f& getSize()const;
