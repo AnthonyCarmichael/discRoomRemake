@@ -38,6 +38,7 @@ int main() {
 	Text txtInfo;
 	Text txtTimer;
 	Text nomJoueur;
+	Text txtPosition;
 
 	std::vector<Score> tableauScore;
 
@@ -109,7 +110,7 @@ int main() {
 
 	setText(txtHighScore2, "", font, "ressources/arial.ttf", 600, 525, 14, Color::Yellow, 0);
 
-	
+	setText(txtPosition, "", font, "ressources/arial.ttf", 600, 525, 14, Color::Yellow, 0);
 
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -395,10 +396,13 @@ int main() {
 
 			for (int i = 0; i < tableauScore.size(); i++)
 			{
+				txtPosition.setString(std::to_string(i + 1));
+				txtPosition.setPosition(600, 100 + ((i + 1) * 20));
 				txtHighScore1.setString(tableauScore.at(i).getNom());
-				txtHighScore1.setPosition(600, 100 + ((i + 1) * 20));
+				txtHighScore1.setPosition(625, 100 + ((i + 1) * 20));
 				txtHighScore2.setString(std::to_string(tableauScore.at(i).getTime()));
-				txtHighScore2.setPosition(650, 100 + ((i + 1) * 20));
+				txtHighScore2.setPosition(660, 100 + ((i + 1) * 20));
+				window.draw(txtPosition);
 				window.draw(txtHighScore1);
 				window.draw(txtHighScore2);
 			}
@@ -410,6 +414,12 @@ int main() {
 			scoreJoueurActif.setScore(nomJoueurTemp, timer.asSeconds());
 			tableauScore.push_back(scoreJoueurActif);
 			scoreJoueurActif.print(std::cout);
+			insertionSort(tableauScore);
+			if (tableauScore.size()==21)
+			{
+				tableauScore.erase(tableauScore.begin() + tableauScore.size()-1);
+			}
+			
 
 			menubool = true;
 			play = false;

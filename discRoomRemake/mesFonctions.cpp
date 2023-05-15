@@ -161,16 +161,7 @@ void setText(sf::Text& text, const char* message, sf::Font& font, const char* po
     text.setPosition(posX, posY);
 }
 
-void afficherTableauScore(std::vector<Score>& tableauScore)
-{
-    cout << endl << endl;
-    for (int i = 0; i < tableauScore.size(); i++) {
-        cout << tableauScore.at(i);
-    }
-    cout << endl << endl;
-}
-
-void insertionSort(vector<Score>& tableauScore)
+void insertionSort(std::vector<Score>& tableauScore)
 {
     Score temp;
     int i, j;
@@ -181,7 +172,7 @@ void insertionSort(vector<Score>& tableauScore)
 
         for (j = i - 1; j >= 0; j--)
         {
-            if (temp > tableauScore.at(j))
+            if (temp < tableauScore.at(j))
                 break;
             else
                 tableauScore.at(j + 1) = tableauScore.at(j);
