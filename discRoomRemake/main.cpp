@@ -433,32 +433,38 @@ int main() {
 		{
 			if (ifCollisionBonhommeScie(scies.at(i), bonhommeDisc))
 			{
-				timer = clock.getElapsedTime();
-				scoreJoueurActif.setScore(nomJoueurTemp, round(timer.asSeconds() * 100) / 100);
-				tableauScore.push_back(scoreJoueurActif);
-				scoreJoueurActif.print(std::cout);
-				insertionSort(tableauScore);
-				if (tableauScore.size() == 21)
-				{
-					tableauScore.erase(tableauScore.begin() + tableauScore.size() - 1);
-				}
-				ouvrirFichierEcriture(ecriture, "ressources/scores.txt");
-				ecrireFichier(ecriture, tableauScore);
-
-				menubool = true;
-				play = false;
-
-				for (int i = 0; i < 10; i++) 
-				{
-					scies.at(i).initScie(32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
-				}
-				
-				bonhommeDisc.init(150, 150, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
-				musicPlay.stop();
-				musicMenu.play();
-				Sleep(1000);
-
+				colision = true;
+			
 			}
+			
+		}
+		if (colision == true)
+		{
+			timer = clock.getElapsedTime();
+			scoreJoueurActif.setScore(nomJoueurTemp, round(timer.asSeconds() * 100) / 100);
+			tableauScore.push_back(scoreJoueurActif);
+			scoreJoueurActif.print(std::cout);
+			insertionSort(tableauScore);
+			if (tableauScore.size() == 21)
+			{
+				tableauScore.erase(tableauScore.begin() + tableauScore.size() - 1);
+			}
+			ouvrirFichierEcriture(ecriture, "ressources/scores.txt");
+			ecrireFichier(ecriture, tableauScore);
+
+			menubool = true;
+			play = false;
+
+			for (int i = 0; i < 10; i++)
+			{
+				scies.at(i).initScie(32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
+			}
+
+			bonhommeDisc.init(150, 150, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
+			Sleep(1000);
+			musicPlay.stop();
+			musicMenu.play();
+			colision = false;
 		}
 		
 
