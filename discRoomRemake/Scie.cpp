@@ -4,9 +4,11 @@
 #include "Scie.h"
 
 
+
+
 void Scie::initScie(int posX, int posY, int w, int h, const sf::IntRect& rectSprite, const char* nomSprite)
 {
-    if (!_textureScie.loadFromFile("ressources/disc_room_sprite_saw.png"))
+    if (!_textureScie.loadFromFile(nomSprite))
         exit;
     _rectSprite = rectSprite;
 

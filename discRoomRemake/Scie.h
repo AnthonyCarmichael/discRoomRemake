@@ -6,9 +6,10 @@ private:
 	sf::Texture _textureScie;
 	sf::IntRect _rectSprite;
 	sf::RectangleShape _hitbox;
-	int _cptAnimation;
+	int _cptAnimation=0;
 
 public:
+	
 	void initScie(int posX, int posY, int w, int h, const sf::IntRect& rectSprite, const char* nomSprite);
 
 	const sf::Vector2f& getPosition()const;

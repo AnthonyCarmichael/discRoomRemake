@@ -2,8 +2,9 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <time.h>
+#include<vector>
 #include "Bonhomme.h"
-#include"Scie.h"
+#include"scie.h"
 #include"mesFonctions.h"
 
 using namespace sf;
@@ -15,6 +16,7 @@ int main() {
 	RectangleShape menu[3];
 	Texture textureFondEcran;
 	Scie scie;
+	std::vector<Scie> scies;
 	Bonhomme bonhommeDisc;
 	IntRect rectSprite(0, 0, 32, 32);
 	IntRect backgroundSprite(0, 0, 800, 600);
@@ -38,7 +40,9 @@ int main() {
 
 	srand(time(NULL));
 	//modification max
-	scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
+	scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png");
+	scies.push_back(scie);
+		
 
 	window.create(VideoMode(800, 600), "Lost SFML");
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
@@ -272,8 +276,8 @@ int main() {
 			
 
 		//modification max
-		scie.initMoveScie(move, moveX, moveY);
-		ifCollisionScie(scie, move, moveX, moveY);
+		scies.at(0).initMoveScie(move, moveX, moveY);
+		ifCollisionScie(scies.at(0), move, moveX, moveY);
 
 		window.clear(Color::Black);
 
@@ -291,12 +295,12 @@ int main() {
 
 		if (play)
 		{
-			scie.draw(window);
+			scies.at(0).draw(window);
 			bonhommeDisc.draw(window);
 		}
 		
 
-		if (ifCollisionBonhommeScie(scie, bonhommeDisc)) 
+		if (ifCollisionBonhommeScie(scies.at(0), bonhommeDisc))
 		{
 			system("pause>0");
 		}
