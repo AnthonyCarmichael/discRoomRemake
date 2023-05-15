@@ -6,7 +6,6 @@
 #include <vector>
 #include <map>
 #include <time.h>
-#include<vector>
 #include "Bonhomme.h"
 #include "Scie.h"
 #include "Score.h"
@@ -384,9 +383,9 @@ int main() {
 			bonhommeDisc.move(dir, lastX, lastY, animationCpt);
 			ifCollisionBonhomme(bonhommeDisc);
 
-			scie.initMoveScie(move, moveX, moveY);
-			ifCollisionScie(scie, move, moveX, moveY);
-			scie.draw(window);
+			scies.at(0).initMoveScie(move, moveX, moveY);
+			ifCollisionScie(scies.at(0), move, moveX, moveY);
+			scies.at(0).draw(window);
 			bonhommeDisc.draw(window);
 			timer = clock.getElapsedTime();
 			std::cout << timer.asSeconds() << std::endl;
