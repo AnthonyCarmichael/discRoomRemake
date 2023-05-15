@@ -418,11 +418,28 @@ int main() {
 			for (int i = 0; i < tableauScore.size(); i++)
 			{
 				txtPosition.setString(std::to_string(i + 1));
-				txtPosition.setPosition(610, 100 + ((i + 1) * 20));
+				if (i+1>=10)
+					txtPosition.setPosition(600, 100 + ((i + 1) * 20));
+				else
+					txtPosition.setPosition(610, 100 + ((i + 1) * 20));
+
 				txtHighScore1.setString(tableauScore.at(i).getNom());
 				txtHighScore1.setPosition(635, 100 + ((i + 1) * 20));
+
+			
 				txtHighScore2.setString(std::to_string(tableauScore.at(i).getTime()).erase(std::to_string(tableauScore.at(i).getTime()).size()-4, 4));
-				txtHighScore2.setPosition(670, 100 + ((i + 1) * 20));
+
+
+				//Les temps alignés à la virgue
+				if (tableauScore.at(i).getTime() >= 1000)
+					txtHighScore2.setPosition(673, 100 + ((i + 1) * 20));
+				else if ((tableauScore.at(i).getTime() >= 100))
+					txtHighScore2.setPosition(682, 100 + ((i + 1) * 20));
+				else if (tableauScore.at(i).getTime() >= 10)
+					txtHighScore2.setPosition(691, 100 + ((i + 1) * 20));
+				else
+					txtHighScore2.setPosition(700, 100 + ((i + 1) * 20));
+
 				window.draw(txtPosition);
 				window.draw(txtHighScore1);
 				window.draw(txtHighScore2);
