@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include <cmath>
 #include <fstream>
 #include <vector>
 #include <map>
@@ -51,6 +52,7 @@ int main() {
 	float lastX = 0;
 	float lastY = 0;
 	float temp = 0;
+	float timeRun;
 	bool firstStart = true;
 	bool move = false;
 	bool colision = false;
@@ -72,7 +74,7 @@ int main() {
 	SoundBuffer bufferMenu;
 	SoundBuffer bufferPlay;
 
-	if (!bufferMenu.loadFromFile("ressources/disc_room_menu.wav"))
+	if (!bufferMenu.loadFromFile("ressources/disc_room_menu2.wav"))
 		return -1;
 	musicMenu.setBuffer(bufferMenu);
 	musicMenu.setLoop(true);
@@ -384,7 +386,8 @@ int main() {
 			bonhommeDisc.draw(window);
 			timer = clock.getElapsedTime();
 			std::cout << timer.asSeconds() << std::endl;
-			txtTimer.setString(std::to_string(timer.asSeconds()));
+			timeRun = round(timer.asSeconds()*100)/100;
+			txtTimer.setString(std::to_string(timeRun));
 			window.draw(txtTimer);
 		}
 
@@ -411,7 +414,7 @@ int main() {
 		if (ifCollisionBonhommeScie(scie, bonhommeDisc)) 
 		{
 			timer = clock.getElapsedTime();
-			scoreJoueurActif.setScore(nomJoueurTemp, timer.asSeconds());
+			scoreJoueurActif.setScore(nomJoueurTemp, round(timer.asSeconds()*100)/100);
 			tableauScore.push_back(scoreJoueurActif);
 			scoreJoueurActif.print(std::cout);
 			insertionSort(tableauScore);
