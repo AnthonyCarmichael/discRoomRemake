@@ -124,6 +124,10 @@ int main() {
 
 	ouvrirFichierLecture(lecture,"ressources/scores.txt");
 	lireFichier(lecture,tableauScore);
+	if (tableauScore.size() == 21)
+	{
+		tableauScore.erase(tableauScore.begin() + tableauScore.size() - 1);
+	}
 	//////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////
 
@@ -236,7 +240,7 @@ int main() {
 			{
 				if (event.joystickMove.axis == sf::Joystick::X)
 				{
-					lastX = Joystick::getAxisPosition(0, sf::Joystick::X) / 40;
+					lastX = Joystick::getAxisPosition(0, sf::Joystick::X) / 30;
 					std::cout << "X: " << Joystick::getAxisPosition(0, sf::Joystick::X) << std::endl;
 					if (lastX<0)
 					{
@@ -249,7 +253,7 @@ int main() {
 				}
 				if (event.joystickMove.axis == sf::Joystick::Y)
 				{
-					lastY = event.joystickMove.position / 40;
+					lastY = event.joystickMove.position / 30;
 					std::cout << "Y: " << Joystick::getAxisPosition(0, sf::Joystick::Y) << std::endl;
 					if (lastY < 0)
 					{
