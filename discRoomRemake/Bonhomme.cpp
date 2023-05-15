@@ -192,5 +192,5 @@ void Bonhomme::move(int &dir,float x, float y, int &animationCpt)
 void Bonhomme::draw(sf::RenderWindow& window) const
 {
 	window.draw(_posBonhomme);
-	window.draw(_hitbox);
+	//window.draw(_hitbox);
 }

@@ -1,10 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include <cmath>
+#include <fstream>
+#include <vector>
+#include <map>
 #include <time.h>
 #include<vector>
 #include "Bonhomme.h"
-#include"scie.h"
+#include "Scie.h"
+#include "Score.h"
 #include"mesFonctions.h"
 
 using namespace sf;
@@ -12,17 +17,33 @@ using namespace sf;
 int main() {
 
 	RenderWindow window;
-	RectangleShape fondEcran;
+	RectangleShape fondEcranMenu;
+	RectangleShape fondEcranPlay;
 	RectangleShape menu[3];
-	Texture textureFondEcran;
+	Texture texturefondEcranMenu;
+	Texture texturefondEcranPlay;
 	Scie scie;
 	std::vector<Scie> scies;
 	Bonhomme bonhommeDisc;
+	Score scoreJoueurActif;
 	IntRect rectSprite(0, 0, 32, 32);
 	IntRect backgroundSprite(0, 0, 800, 600);
 	Clock clock;
-	/*Time time;*/
-	Sound music;
+	Time timer;
+	Sound musicMenu;
+	Sound musicPlay;
+	Font font;
+	Text txt1;
+	Text txt2;
+	Text txt3;
+	Text txtHighScore1;
+	Text txtHighScore2;
+	Text txtInfo;
+	Text txtTimer;
+	Text nomJoueur;
+	Text txtPosition;
+
+	std::vector<Score> tableauScore;
 
 	int dirX = 0;
 	int dirY = 0;
@@ -33,10 +54,16 @@ int main() {
 	float lastX = 0;
 	float lastY = 0;
 	float temp = 0;
+	float timeRun;
+	bool firstStart = true;
 	bool move = false;
 	bool colision = false;
-	bool play = false;
 	bool menubool = true;
+	bool play = false;
+	bool info = false;
+
+	std::string nomJoueurTemp="";
+	
 
 	srand(time(NULL));
 	//modification max
@@ -48,44 +75,77 @@ int main() {
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
 	
 	//MUSIQUE
-	sf::SoundBuffer buffer;
-	if (!buffer.loadFromFile("ressources/disc_room2.wav"))
-		return -1;
-	music.setBuffer(buffer);
-	music.setLoop(true);
-	music.play();
+	SoundBuffer bufferMenu;
+	SoundBuffer bufferPlay;
 
+	if (!bufferMenu.loadFromFile("ressources/disc_room_menu2.wav"))
+		return -1;
+	musicMenu.setBuffer(bufferMenu);
+	musicMenu.setLoop(true);
+
+
+	if (!bufferPlay.loadFromFile("ressources/disc_room2.wav"))
+		return -1;
+	musicPlay.setBuffer(bufferPlay);
+	musicPlay.setLoop(true);
+	
 	///////////////////////////////////////////////////////////////////////////////
 	//MENU
 	//////////////////////////////////////////////////////////////////////////////
 	
 	for (int i = 0; i < 3; i++)
 	{
-		menu[i].setFillColor(Color::Blue);
-		menu[i].setSize(Vector2f(200, 60));
-		menu[i].setPosition(Vector2f(window.getSize().x / 2 - 100, 100 * i + 200));
+		menu[i].setFillColor(Color::White);
+		menu[i].setSize(Vector2f(100, 20));
+		menu[i].setPosition(Vector2f(window.getSize().x / 2 - 30, 50 * i + 400));
+		if (i==0)
+			setText(txt1, "Play", font, "ressources/arial.ttf", window.getSize().x / 2, 50 * i + 400, 16, Color::Black, 0);
+		if (i==1)
+			setText(txt2, "Info", font, "ressources/arial.ttf", window.getSize().x / 2, 50 * i + 400, 16, Color::Black, 0);
+		if (i==2)
+			setText(txt3, "Quit", font, "ressources/arial.ttf", window.getSize().x / 2, 50 * i + 400, 16, Color::Black, 0);
 	}
+
+	setText(txtInfo, "Entrer un nom (trois lettres): ", font, "ressources/arial.ttf", 400, 0,24 , Color::Yellow, 0);
+
+	setText(nomJoueur, "", font, "ressources/arial.ttf", 750, 0, 24, Color::Yellow, 0);
+
+	setText(txtTimer, "", font, "ressources/arial.ttf", 600, 525, 24, Color::Yellow, 0);
+
+	setText(txtHighScore1, "", font, "ressources/arial.ttf", 600, 525, 14, Color::Yellow, 0);
+
+	setText(txtHighScore2, "", font, "ressources/arial.ttf", 600, 525, 14, Color::Yellow, 0);
+
+	setText(txtPosition, "", font, "ressources/arial.ttf", 600, 525, 14, Color::Yellow, 0);
 
 
 	//////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////
 
 	//Écran
-	fondEcran.setSize(Vector2f(800, 600));
-	//fondEcran.setOutlineColor(Color::Red);
-	//fondEcran.setOutlineThickness(5);
-	//fondEcran.setFillColor(Color::White);
-	
+	fondEcranMenu.setSize(Vector2f(800, 600));
+	fondEcranPlay.setSize(Vector2f(800, 600));
+	//fondEcranPlay.setOutlineColor(Color::Red);
+	//fondEcranPlay.setOutlineThickness(5);
+	//fondEcranPlay.setFillColor(Color::White);
+
+	if (!texturefondEcranMenu.loadFromFile("ressources/disc_room_menu.png"))
+	{
+		return 1;
+	}
+	fondEcranMenu.setTexture(&texturefondEcranMenu);
+
+	if (!texturefondEcranPlay.loadFromFile("ressources/disc_room_background2BackUp.png"))
+	{
+		return 1;
+	}
+	fondEcranPlay.setTexture(&texturefondEcranPlay);
+
 
 	//Bonhomme
 	bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
 
-	
-	if (!textureFondEcran.loadFromFile("ressources/disc_room_background2.png"))
-	{
-		return 1;
-	}
-	fondEcran.setTexture(&textureFondEcran);
+
 
 	// on fait tourner le programme jusqu'à ce que la fenêtre soit fermée
 	while (window.isOpen())
@@ -256,62 +316,158 @@ int main() {
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			}
-			else if (event.type == Event::MouseButtonPressed)
+			else if (event.type == Event::MouseButtonPressed && menubool && nomJoueurTemp.length()==3)
 			{
 				for (int i = 0; i < 3; i++)
 				{
 					if (menu[i].getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
-						menu[i].setFillColor(Color::Red);
+						menu[i].setFillColor(Color::Black);
 					else
-						menu[i].setFillColor(Color::Blue);
+						menu[i].setFillColor(Color::White);
 				}
 			}
-		}
+			if (event.type == sf::Event::TextEntered && nomJoueurTemp.length()<3)
+			{
+				if (event.text.unicode >= 65 && event.text.unicode <= 90 || event.text.unicode >= 97 && event.text.unicode <=122 )
+				{
+					std::cout << "ASCII character typed: " << static_cast<char>(event.text.unicode) << std::endl;
+					nomJoueurTemp += static_cast<char>(event.text.unicode);
 
-
-		//time = clock.getElapsedTime();
-
-		bonhommeDisc.move(dir, lastX, lastY, animationCpt);
-		ifCollisionBonhomme(bonhommeDisc);
-			
-
-		//modification max
-		scies.at(0).initMoveScie(move, moveX, moveY);
-		ifCollisionScie(scies.at(0), move, moveX, moveY);
+					nomJoueur.setString(nomJoueurTemp);
+				}
+				
+				
+			}
+		}//FIN POLL EVENT
 
 		window.clear(Color::Black);
 
 		//DRAW
-		window.draw(fondEcran);
+	
 		if (menubool)
 		{
-			for (int i = 0; i < 3; i++)
+			
+			window.draw(fondEcranMenu);
+
+			if (firstStart)
 			{
-				window.draw(menu[i]);
+				musicMenu.play();
+				firstStart = false;
 			}
+			if (nomJoueurTemp.length()== 3)
+			{
 
+				window.draw(nomJoueur);
 
+				for (int i = 0; i < 3; i++)
+				{
+					window.draw(menu[i]);
+					window.draw(txt1);
+					window.draw(txt2);
+					window.draw(txt3);
+				}
+				
+			}
+			else
+			{
+				window.draw(txtInfo);
+				window.draw(nomJoueur);
+				
+			}
 		}
 
 		if (play)
 		{
-			scies.at(0).draw(window);
+			
+			window.draw(fondEcranPlay);
+			window.draw(nomJoueur);
+			bonhommeDisc.move(dir, lastX, lastY, animationCpt);
+			ifCollisionBonhomme(bonhommeDisc);
+
+			scie.initMoveScie(move, moveX, moveY);
+			ifCollisionScie(scie, move, moveX, moveY);
+			scie.draw(window);
 			bonhommeDisc.draw(window);
+			timer = clock.getElapsedTime();
+			std::cout << timer.asSeconds() << std::endl;
+			timeRun = round(timer.asSeconds()*100)/100;
+			txtTimer.setString(std::to_string(timeRun).substr(0,4));
+			window.draw(txtTimer);
 		}
-		
+
+		if (info)
+		{
+			txtInfo.setString("HIGHSCORE");
+			txtInfo.setPosition(600, 80);
+			window.draw(txtInfo);
+
+			for (int i = 0; i < tableauScore.size(); i++)
+			{
+				txtPosition.setString(std::to_string(i + 1));
+				txtPosition.setPosition(610, 100 + ((i + 1) * 20));
+				txtHighScore1.setString(tableauScore.at(i).getNom());
+				txtHighScore1.setPosition(635, 100 + ((i + 1) * 20));
+				txtHighScore2.setString(std::to_string(tableauScore.at(i).getTime()).substr(0, 4));
+				txtHighScore2.setPosition(670, 100 + ((i + 1) * 20));
+				window.draw(txtPosition);
+				window.draw(txtHighScore1);
+				window.draw(txtHighScore2);
+			}
+		}
 
 		if (ifCollisionBonhommeScie(scies.at(0), bonhommeDisc))
 		{
-			system("pause>0");
+			timer = clock.getElapsedTime();
+			scoreJoueurActif.setScore(nomJoueurTemp, round(timer.asSeconds()*100)/100);
+			tableauScore.push_back(scoreJoueurActif);
+			scoreJoueurActif.print(std::cout);
+			insertionSort(tableauScore);
+			if (tableauScore.size()==21)
+			{
+				tableauScore.erase(tableauScore.begin() + tableauScore.size()-1);
+			}
+			
+
+			menubool = true;
+			play = false;
+	
+			scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png");
+			bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
+			musicPlay.stop();
+			musicMenu.play();
+			
 		}
 
-		// fin de la frame courante, affichage de tout ce qu'on a dessiné
 		window.display();
-		//clock.restart();
-		if (menu[1].getFillColor()==Color::Red)
+		//arrive une fois selon le choix du menu
+		if (menu[0].getFillColor()==Color::Black)
 		{
+			menu[0].setFillColor(Color::White);
+			musicMenu.stop();
+			musicPlay.play();
 			play = true;
 			menubool = false;
+			info = false;
+			clock.restart();
+			
+		}
+		if (menu[1].getFillColor() == Color::Black)
+		{
+			if (!info)
+			{
+				info = true;
+			}
+			else
+			{
+				info = false;
+			}
+			menu[1].setFillColor(Color::White);
+
+			
+		}
+		if (menu[2].getFillColor() == Color::Black)
+		{
+			exit(0);
 		}
 	}
 	exit(0);

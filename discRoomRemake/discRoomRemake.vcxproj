@@ -133,6 +133,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesFonctions.cpp" />
     <ClCompile Include="Scie.cpp" />
+    <ClCompile Include="Score.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -141,6 +142,7 @@
     <ClInclude Include="Bonhomme.h" />
     <ClInclude Include="mesFonctions.h" />
     <ClInclude Include="Scie.h" />
+    <ClInclude Include="Score.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
