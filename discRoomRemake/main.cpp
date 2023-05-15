@@ -57,7 +57,7 @@ int main() {
 	float temp = 0;
 	float timeRun;
 	bool firstStart = true;
-	bool colision = false;
+	bool collision = false;
 	bool menubool = true;
 	bool play = false;
 	bool info = false;
@@ -402,11 +402,47 @@ int main() {
 			}
 			
 			bonhommeDisc.draw(window);
+			
+			for (int i = 0; i < 10; i++)
+			{
+				if (ifCollisionBonhommeScie(scies.at(i), bonhommeDisc))
+				{
+					collision = true;
+				}
+			}
+
 			timer = clock.getElapsedTime();
-			std::cout << timer.asSeconds() << std::endl;
-			timeRun = round(timer.asSeconds()*100)/100;
-			txtTimer.setString(std::to_string(timeRun).erase(std::to_string(timeRun).size()-4, 4));
+			timeRun = timer.asSeconds();
+			std::cout << timeRun << std::endl;
+			
+			txtTimer.setString(std::to_string(timeRun).erase(std::to_string(timeRun).size() - 4, 4));
 			window.draw(txtTimer);
+
+			if (collision == true)
+			{
+				scoreJoueurActif.setScore(nomJoueurTemp, timeRun);
+				tableauScore.push_back(scoreJoueurActif);
+				scoreJoueurActif.print(std::cout);
+				insertionSort(tableauScore);
+				if (tableauScore.size() == 21)
+				{
+					tableauScore.erase(tableauScore.begin() + tableauScore.size() - 1);
+				}
+				ouvrirFichierEcriture(ecriture, "ressources/scores.txt");
+				ecrireFichier(ecriture, tableauScore);
+
+				menubool = true;
+				play = false;
+
+				for (int i = 0; i < 10; i++)
+				{
+					scies.at(i).initScie(32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
+				}
+
+				bonhommeDisc.init(150, 150, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
+
+
+			}
 		}
 
 		if (info)
@@ -445,45 +481,20 @@ int main() {
 				window.draw(txtHighScore2);
 			}
 		}
+		//verification collision avec les scies
 
-		for (int i = 0; i < 10; i++)
-		{
-			if (ifCollisionBonhommeScie(scies.at(i), bonhommeDisc))
-			{
-				colision = true;
-			}
-		}
-		if (colision == true)
-		{
-			timer = clock.getElapsedTime();
-			scoreJoueurActif.setScore(nomJoueurTemp, round(timer.asSeconds() * 100) / 100);
-			tableauScore.push_back(scoreJoueurActif);
-			scoreJoueurActif.print(std::cout);
-			insertionSort(tableauScore);
-			if (tableauScore.size() == 21)
-			{
-				tableauScore.erase(tableauScore.begin() + tableauScore.size() - 1);
-			}
-			ouvrirFichierEcriture(ecriture, "ressources/scores.txt");
-			ecrireFichier(ecriture, tableauScore);
-
-			menubool = true;
-			play = false;
-
-			for (int i = 0; i < 10; i++)
-			{
-				scies.at(i).initScie(32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
-			}
-
-			bonhommeDisc.init(150, 150, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
-			Sleep(1000);
-			musicPlay.stop();
-			musicMenu.play();
-			colision = false;
-		}
 		
 
 		window.display();
+		window.draw(txtTimer);
+		if (collision)
+		{
+			Sleep(1000);
+			collision = false;
+			musicPlay.stop();
+			musicMenu.play();
+		}
+		
 		//arrive une fois selon le choix du menu
 		if (menu[0].getFillColor()==Color::Black)
 		{
