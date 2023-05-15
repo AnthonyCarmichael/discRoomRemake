@@ -15,6 +15,9 @@ using namespace sf;
 
 int main() {
 
+	std::ifstream lecture;
+	std::ofstream ecriture;
+
 	RenderWindow window;
 	RectangleShape fondEcranMenu;
 	RectangleShape fondEcranPlay;
@@ -112,13 +115,14 @@ int main() {
 
 	setText(txtTimer, "", font, "ressources/arial.ttf", 600, 525, 24, Color::Yellow, 0);
 
-	setText(txtHighScore1, "", font, "ressources/arial.ttf", 600, 525, 14, Color::Yellow, 0);
+	setText(txtHighScore1, "", font, "ressources/arial.ttf", 600, 525, 16, Color::Yellow, 0);
 
-	setText(txtHighScore2, "", font, "ressources/arial.ttf", 600, 525, 14, Color::Yellow, 0);
+	setText(txtHighScore2, "", font, "ressources/arial.ttf", 600, 525, 16, Color::Yellow, 0);
 
-	setText(txtPosition, "", font, "ressources/arial.ttf", 600, 525, 14, Color::Yellow, 0);
+	setText(txtPosition, "", font, "ressources/arial.ttf", 600, 525, 16, Color::Yellow, 0);
 
-
+	ouvrirFichierLecture(lecture,"ressources/scores.txt");
+	lireFichier(lecture,tableauScore);
 	//////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////
 
@@ -426,7 +430,8 @@ int main() {
 			{
 				tableauScore.erase(tableauScore.begin() + tableauScore.size()-1);
 			}
-			
+			ouvrirFichierEcriture(ecriture, "ressources/scores.txt");
+			ecrireFichier(ecriture, tableauScore);
 
 			menubool = true;
 			play = false;

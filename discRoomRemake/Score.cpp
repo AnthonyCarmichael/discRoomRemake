@@ -48,7 +48,7 @@ void Score::setScore(std::string nom, float temps)
 
 void Score::print(std::ostream& sortie) const
 {
-	sortie << left << "Nom : " << setw(15) << _nomJoueur << setw(15) << "Temps : " << setw(10) << _time << endl;
+	sortie << _nomJoueur << " " << _time << endl;
 }
 
 void Score::read(std::istream& entree)

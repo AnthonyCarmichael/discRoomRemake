@@ -181,11 +181,11 @@ void insertionSort(std::vector<Score>& tableauScore)
     }
 }
 
-void ouvrirFichier(std::ifstream& monFlux, std::string nomFichier)
+void ouvrirFichierLecture(std::ifstream& monFlux, std::string nomFichier)
 {
     monFlux.open(nomFichier);
 
-    if (!monFlux || monFlux.peek() == EOF)
+    if (!monFlux)
     {
         cout << "Fichier introuvable";
         system("pause>0");
@@ -193,15 +193,39 @@ void ouvrirFichier(std::ifstream& monFlux, std::string nomFichier)
     }
 }
 
-void lireFichier(std::ifstream& monFlux, vector<Score>& listeCoureurs)
+void ouvrirFichierEcriture(std::ofstream& monFlux, std::string nomFichier)
+{
+    monFlux.open(nomFichier);
+    if (!monFlux)
+    {
+        cout << "Fichier introuvable";
+        system("pause>0");
+        exit(1);
+    }
+}
+
+void lireFichier(std::ifstream& monFlux, vector<Score>& tableauScore)
 {
     Score scoreTemp;
-
-    while (!monFlux.eof())
+    if (monFlux.peek() != EOF)
     {
-        //monFlux >> nom >> time;
-        scoreTemp.read(monFlux);
-        //coureurTemp.setCoureur(nom, prenom, temps);
-        listeCoureurs.push_back(scoreTemp);
+        while (!monFlux.eof())
+        {
+            //monFlux >> nom >> time;
+            scoreTemp.read(monFlux);
+            //coureurTemp.setCoureur(nom, prenom, temps);
+            tableauScore.push_back(scoreTemp);
+        }
     }
+
+    monFlux.close();
+}
+
+void ecrireFichier(std::ofstream& monFlux, std::vector<Score>& tableauScore)
+{
+    for (int i = 0; i < tableauScore.size();i++)
+    {
+        tableauScore.at(i).print(monFlux);
+    }
+    monFlux.close();
 }

@@ -1,0 +1,16 @@
+aaa 34.52
+aaa 3.1
+aaa 2.94
+bbb 2.86
+aaa 2.82
+aaa 2.51
+aaa 1.47
+aaa 1.15
+aaa 1
+aaa 0.87
+bbb 0.77
+aaa 0.45
+aaa 0.43
+aaa 0.43
+aaa 0.43
+aaa 0.43

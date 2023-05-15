@@ -92,5 +92,5 @@ void Scie::initMoveScie(bool& move, int& moveX, int& moveY)
 void Scie::draw(sf::RenderWindow& window) const
 {
     window.draw(_posScie);
-    window.draw(_hitbox);
+    //window.draw(_hitbox);
 }
