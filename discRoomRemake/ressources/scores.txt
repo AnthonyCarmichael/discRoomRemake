@@ -9,12 +9,12 @@ aaa 3.87
 aaa 3.64
 aaa 3.56
 aaa 3.52
+aaa 3.24
+aaa 3.08
 aaa 2.78
 aaa 2.1
 aaa 2.09
+aaa 2.06
 aaa 2.03
 aaa 1.94
 aaa 1.89
-aaa 1.89
-aaa 1.76
-aaa 1.7

@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include <Windows.h>
 #include <cmath>
 #include <fstream>
 #include <vector>
@@ -455,6 +456,7 @@ int main() {
 				bonhommeDisc.init(150, 150, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
 				musicPlay.stop();
 				musicMenu.play();
+				Sleep(1000);
 
 			}
 		}
