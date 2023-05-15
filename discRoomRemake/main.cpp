@@ -65,7 +65,7 @@ int main() {
 	
 
 	srand(time(NULL));
-
+	
 	window.create(VideoMode(800, 600), "Lost SFML");
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
 	//modification max
@@ -431,7 +431,7 @@ int main() {
 			menubool = true;
 			play = false;
 	
-			scie.initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png");
+			scies.at(0).initScie(150, 150, 32, 32, rectSprite, "ressources/disc_room_sprite_saw.png");
 			bonhommeDisc.init(400 - 16, 300 - 16, 32, 32, rectSprite, "ressources/disc_room_charsets.png");
 			musicPlay.stop();
 			musicMenu.play();
