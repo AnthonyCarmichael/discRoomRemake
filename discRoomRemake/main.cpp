@@ -187,7 +187,7 @@ int main() {
 					
 					if (Keyboard::isKeyPressed(Keyboard::A))
 					{
-						dir=5;//bas gauche
+							dir=5;//bas gauche
 					}
 					else if (Keyboard::isKeyPressed(Keyboard::D))
 					{
@@ -243,6 +243,104 @@ int main() {
 					break;
 				default:
 					dir = 0;
+					break;
+				}
+
+				std::cout << dir << std::endl;
+			}
+			else if (event.type == Event::KeyReleased)//Pour régler les diagonales qui continue même si on à Released une touche
+			{
+				switch (event.key.code)
+				{
+				case Keyboard::S:
+					std::cout << "Released" << event.type;
+					switch (dir)
+					{
+					case 1:
+						dir = 0;
+						break;
+					case 5:
+						dir = 3;
+						break;
+					case 6:
+						dir = 4;
+						break;
+					case 9:
+						dir = 3;
+						break;
+					case 11:
+						dir = 4;
+					default:
+						break;
+					}
+					break;
+				case Keyboard::W:
+					switch (dir)
+					{
+					case 2:
+						dir = 0;
+						break;
+					case 7:
+						dir = 3;
+						break;
+					case 8:
+						dir = 4;
+						break;
+					case 10:
+						dir = 3;
+						break;
+					case 12:
+						dir = 4;
+						break;
+					default:
+						break;
+					}
+					break;
+				case Keyboard::A:
+					switch (dir)
+					{
+					case 3:
+						dir = 0;
+						break;
+					case 5:
+						dir = 1;
+						break;
+					case 7:
+						dir = 2;
+						break;
+					case 9:
+						dir = 1;
+						break;
+					case 10:
+						dir = 2;
+						break;
+					default:
+						break;
+					}
+					break;
+				case Keyboard::D:
+					switch (dir)
+					{
+					case 4:
+						dir = 0;
+						break;
+					case 6:
+						dir = 1;
+						break;
+					case 8:
+						dir = 2;
+						break;
+					case 11:
+						dir = 1;
+						break;
+					case 12:
+						dir = 2;
+						break;
+					default:
+						break;
+					}
+					break;
+				default:
 					break;
 				}
 			}
@@ -428,17 +526,17 @@ int main() {
 			
 			bonhommeDisc.draw(window);
 			
-			for (int i = 0; i < scies.size(); i++)
-			{
-				if (ifCollisionBonhommeScie(scies.at(i), bonhommeDisc))
-				{
-					collision = true;
-				}
-			}
+			//for (int i = 0; i < scies.size(); i++)
+			//{
+			//	if (ifCollisionBonhommeScie(scies.at(i), bonhommeDisc))
+			//	{
+			//		collision = true;
+			//	}
+			//}
 
 			timer = clock.getElapsedTime();
 			timeRun = timer.asSeconds();
-			std::cout << timeRun << std::endl;
+			//std::cout << timeRun << std::endl;
 			
 			txtTimer.setString(std::to_string(timeRun).erase(std::to_string(timeRun).size() - 4, 4));
 			window.draw(txtTimer);
