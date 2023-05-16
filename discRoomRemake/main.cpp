@@ -125,7 +125,7 @@ int main() {
 
 	setText(txtPosition, "", font, "ressources/arial.ttf", 600, 525, 16, Color::Yellow, 0);
 
-	setText(txtTuto, "Le but du jeu consiste à éviter les scies le plus longtemps possible. \nPour se faire, utilisez les touches WASD pour vous déplacer ou, \nVous pouvez aussi utiliser un joystick. \n \nAprès 10 secondes, une nouvelle scie apparaitra. \nAprès 3 secondes elle devient mortelle.  ", font, "ressources/arial.ttf", 10, 10, 16, Color::Yellow,0);
+	setText(txtTuto, "Le but du jeu consiste à éviter les scies le plus longtemps possible. \nPour se faire, utilisez les touches WASD pour vous déplacer ou, \nvous pouvez aussi utiliser un joystick. \n \nAprès 10 secondes, une nouvelle scie apparaitra. \nAprès 3 secondes elle devient mortelle.  ", font, "ressources/arial.ttf", 10, 10, 16, Color::Yellow,0);
 
 	ouvrirFichierLecture(lecture,"ressources/scores.txt");
 	lireFichier(lecture,tableauScore);
