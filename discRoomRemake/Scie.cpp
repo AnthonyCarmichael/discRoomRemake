@@ -27,6 +27,7 @@ void Scie::initScie(int w, int h, const sf::IntRect& rectSprite, const char* nom
     _move = false;
     _moveX = 0;
     _moveY = 0;
+    _active = false;
 }
 
 const sf::Vector2f& Scie::getPosition() const
@@ -59,6 +60,11 @@ int Scie::getMoveY() const
     return _moveY;
 }
 
+bool Scie::getActive() const
+{
+    return _active;
+}
+
 void Scie::setPosition(int posX, int posY)
 {
     assert(posX > 0);
@@ -82,38 +88,44 @@ void Scie::setMoveY(int moveY)
     _moveY = moveY;
 }
 
+void Scie::setActive(bool active)
+{
+    _active = active;
+}
+
 void Scie::initMoveScie()
 {
-
-    if (!_move) 
+    if (_active)
     {
-        do {
-            _moveX = rand() % (1 + 1 - -1) + -1;
-            _moveY = rand() % (1 + 1 - -1) + -1;
-            _move = true;
-        } while (_moveX == 0 || _moveY == 0);
-        _moveX = _moveX * 5;
-        _moveY = _moveY * 5;
+        if (!_move)
+        {
+            do {
+                _moveX = rand() % (1 + 1 - -1) + -1;
+                _moveY = rand() % (1 + 1 - -1) + -1;
+                _move = true;
+            } while (_moveX == 0 || _moveY == 0);
+            _moveX = _moveX * 5;
+            _moveY = _moveY * 5;
+        }
+
+        _posScie.move(sf::Vector2f(_moveX, _moveY));
+        _hitbox.move(sf::Vector2f(_moveX, _moveY));
+        _cptAnimation++;
+
+        if (_cptAnimation == 5)
+        {
+            _cptAnimation = 0;
+            _rectSprite.left += 32;
+        }
+
+
+
+        if (_rectSprite.left > 32)
+        {
+            _rectSprite.left = 0;
+        }
+        _posScie.setTextureRect(_rectSprite);
     }
-   
-    _posScie.move(sf::Vector2f(_moveX, _moveY));
-    _hitbox.move(sf::Vector2f(_moveX, _moveY));
-    _cptAnimation++;
-
-    if (_cptAnimation == 5)
-    {
-        _cptAnimation = 0;
-        _rectSprite.left += 32;
-    }
-
-
-
-    if (_rectSprite.left > 32)
-    {
-        _rectSprite.left = 0;
-    }
-    _posScie.setTextureRect(_rectSprite);
-
 }
 
 void Scie::draw(sf::RenderWindow& window) const

@@ -8,6 +8,7 @@ private:
 	sf::RectangleShape _hitbox;
 	int _type;
 	int _cptAnimation=0;
+	bool _active;
 	bool _move;
 	int _moveX;
 	int _moveY;
@@ -23,11 +24,13 @@ public:
 	const sf::RectangleShape getHitbox()const;
 	int getMoveX()const;
 	int getMoveY()const;
+	bool getActive()const;
 
 	void setPosition(int posX, int posY);
 	void setPosition(const sf::Vector2f& pos);
 	void setMoveX(int moveX);
 	void setMoveY(int moveY);
+	void setActive(bool active);
 
 	void initMoveScie();
 

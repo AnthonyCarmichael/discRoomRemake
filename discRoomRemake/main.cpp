@@ -32,6 +32,8 @@ int main() {
 	IntRect rectSprite(0, 0, 32, 32);
 	IntRect backgroundSprite(0, 0, 800, 600);
 	Clock clock;
+	Clock clockScie;
+	Time timerScie;
 	Time timer;
 	Sound musicMenu;
 	Sound musicPlay;
@@ -70,11 +72,7 @@ int main() {
 	window.create(VideoMode(800, 600), "Lost SFML");
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
 	//modification max
-	for (int i = 0; i < 10; i++)
-	{
-		scie.initScie(32, 32, rectSprite, "ressources/disc_room_sprite_saw.png",1);
-		scies.push_back(scie);
-	}
+	
 	
 		
 
@@ -388,13 +386,29 @@ int main() {
 
 		if (play)
 		{
-			
+			timerScie = clockScie.getElapsedTime();
+			if (timerScie.asSeconds() >= 5 && scies.size() < 10)
+			{
+				scie.initScie(32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
+				scies.push_back(scie);
+				clockScie.restart();
+				timerScie = clockScie.getElapsedTime();
+
+				
+			}
+			if (timerScie.asSeconds() >= 2&& !scies.back().getActive())
+			{
+				scies.back().setActive(true);
+				clockScie.restart();
+				timerScie = clockScie.getElapsedTime();
+			}
+
 			window.draw(fondEcranPlay);
 			window.draw(nomJoueur);
 			bonhommeDisc.move(dir, lastX, lastY, animationCpt);
 			ifCollisionBonhomme(bonhommeDisc);
 
-			for (int i = 0; i < 10; i++) 
+			for (int i = 0; i < scies.size(); i++)
 			{
 				scies.at(i).initMoveScie();
 				ifCollisionScie(scies.at(i));
@@ -403,7 +417,7 @@ int main() {
 			
 			bonhommeDisc.draw(window);
 			
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < scies.size(); i++)
 			{
 				if (ifCollisionBonhommeScie(scies.at(i), bonhommeDisc))
 				{
@@ -434,7 +448,7 @@ int main() {
 				menubool = true;
 				play = false;
 
-				for (int i = 0; i < 10; i++)
+				for (int i = 0; i < scies.size(); i++)
 				{
 					scies.at(i).initScie(32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
 				}
@@ -505,6 +519,12 @@ int main() {
 			menubool = false;
 			info = false;
 			clock.restart();
+			clockScie.restart();
+			
+			scies.clear();
+			scie.initScie(32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
+			scies.push_back(scie);
+			
 			
 		}
 		if (menu[1].getFillColor() == Color::Black)

@@ -140,7 +140,7 @@ bool ifCollisionScie(Scie& scie)
 
 bool ifCollisionBonhommeScie(Scie& scie, Bonhomme& bob)
 {
-    if (bob.getHitbox().getGlobalBounds().intersects(scie.getHitbox().getGlobalBounds()))
+    if (bob.getHitbox().getGlobalBounds().intersects(scie.getHitbox().getGlobalBounds()) && scie.getActive())
     {
         return true;
     }
