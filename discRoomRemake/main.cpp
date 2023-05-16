@@ -526,13 +526,13 @@ int main() {
 			
 			bonhommeDisc.draw(window);
 			
-			//for (int i = 0; i < scies.size(); i++)
-			//{
-			//	if (ifCollisionBonhommeScie(scies.at(i), bonhommeDisc))
-			//	{
-			//		collision = true;
-			//	}
-			//}
+			for (int i = 0; i < scies.size(); i++)
+			{
+				if (ifCollisionBonhommeScie(scies.at(i), bonhommeDisc))
+				{
+					collision = true;
+				}
+			}
 
 			timer = clock.getElapsedTime();
 			timeRun = timer.asSeconds();
