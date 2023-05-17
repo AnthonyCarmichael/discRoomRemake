@@ -37,6 +37,7 @@ int main() {
 	Time timer;
 	Sound musicMenu;
 	Sound musicPlay;
+	Sound mort;
 	Font font;
 	Text txt1;
 	Text txt2;
@@ -48,6 +49,7 @@ int main() {
 	Text nomJoueur;
 	Text txtPosition;
 	Text txtTuto;
+	Text txtGameOver;
 
 
 	std::vector<Score> tableauScore;
@@ -75,13 +77,10 @@ int main() {
 	window.setFramerateLimit(60); // un appel suffit, après la création de la fenêtre
 	//modification max
 	
-	
-		
-
-	
 	//MUSIQUE
 	SoundBuffer bufferMenu;
 	SoundBuffer bufferPlay;
+	SoundBuffer bufferMort;
 
 	if (!bufferMenu.loadFromFile("ressources/disc_room_menu2.wav"))
 		return -1;
@@ -93,9 +92,14 @@ int main() {
 		return -1;
 	musicPlay.setBuffer(bufferPlay);
 	musicPlay.setLoop(true);
+
+	if (!bufferMort.loadFromFile("ressources/soundEffectWilhelmscream.wav"))
+		return -1;
+	mort.setBuffer(bufferMort);
+
 	
 	///////////////////////////////////////////////////////////////////////////////
-	//MENU
+	//TXT
 	//////////////////////////////////////////////////////////////////////////////
 	
 	for (int i = 0; i < 3; i++)
@@ -123,8 +127,11 @@ int main() {
 
 	setText(txtPosition, "", font, "ressources/arial.ttf", 600, 525, 16, Color::Yellow, 0);
 
-	setText(txtTuto, "Le but du jeu consiste à éviter les scies le plus longtemps possible. \nPour se faire, utilisez les touches WASD pour vous déplacer ou, \nvous pouvez aussi utiliser un joystick. \n \nAprès 10 secondes, une nouvelle scie apparaitra. \nAprès 3 secondes elle devient mortelle.  ", font, "ressources/arial.ttf", 10, 10, 16, Color::Yellow,0);
+	setText(txtTuto, "Le but du jeu consiste à éviter les scies le plus longtemps possible. \nPour se faire, vous pourvez utilisez les touches WASD pour vous déplacer, mais \nLE JOYSTICK EST FORTEMENT RECOMMANDÉ. \n \nAprès 12 secondes, une nouvelle scie apparaitra. \nAprès 2 secondes, le contact avec celle-ci est mortel.  ", font, "ressources/arial.ttf", 10, 10, 16, Color::Yellow,0);
 
+	setText(txtGameOver, "GAME OVER",font,"ressources/arial.ttf", 400 - 80, 325, 30, Color::Red, 1);
+
+	//Passer le infos du fichier txt au vector score
 	ouvrirFichierLecture(lecture,"ressources/scores.txt");
 	lireFichier(lecture,tableauScore);
 	if (tableauScore.size() == 21)
@@ -180,7 +187,7 @@ int main() {
 					
 					if (Keyboard::isKeyPressed(Keyboard::A))
 					{
-						dir=5;//bas gauche
+							dir=5;//bas gauche
 					}
 					else if (Keyboard::isKeyPressed(Keyboard::D))
 					{
@@ -238,12 +245,110 @@ int main() {
 					dir = 0;
 					break;
 				}
+
+				std::cout << dir << std::endl;
+			}
+			else if (event.type == Event::KeyReleased)//Pour régler les diagonales qui continue même si on à Released une touche
+			{
+				switch (event.key.code)
+				{
+				case Keyboard::S:
+					std::cout << "Released" << event.type;
+					switch (dir)
+					{
+					case 1:
+						dir = 0;
+						break;
+					case 5:
+						dir = 3;
+						break;
+					case 6:
+						dir = 4;
+						break;
+					case 9:
+						dir = 3;
+						break;
+					case 11:
+						dir = 4;
+					default:
+						break;
+					}
+					break;
+				case Keyboard::W:
+					switch (dir)
+					{
+					case 2:
+						dir = 0;
+						break;
+					case 7:
+						dir = 3;
+						break;
+					case 8:
+						dir = 4;
+						break;
+					case 10:
+						dir = 3;
+						break;
+					case 12:
+						dir = 4;
+						break;
+					default:
+						break;
+					}
+					break;
+				case Keyboard::A:
+					switch (dir)
+					{
+					case 3:
+						dir = 0;
+						break;
+					case 5:
+						dir = 1;
+						break;
+					case 7:
+						dir = 2;
+						break;
+					case 9:
+						dir = 1;
+						break;
+					case 10:
+						dir = 2;
+						break;
+					default:
+						break;
+					}
+					break;
+				case Keyboard::D:
+					switch (dir)
+					{
+					case 4:
+						dir = 0;
+						break;
+					case 6:
+						dir = 1;
+						break;
+					case 8:
+						dir = 2;
+						break;
+					case 11:
+						dir = 1;
+						break;
+					case 12:
+						dir = 2;
+						break;
+					default:
+						break;
+					}
+					break;
+				default:
+					break;
+				}
 			}
 			else if (event.type == Event::JoystickMoved)
 			{
 				if (event.joystickMove.axis == sf::Joystick::X)
 				{
-					lastX = Joystick::getAxisPosition(0, sf::Joystick::X) / 30;
+					lastX = Joystick::getAxisPosition(0, sf::Joystick::X) / 25;
 					std::cout << "X: " << Joystick::getAxisPosition(0, sf::Joystick::X) << std::endl;
 					if (lastX<0)
 					{
@@ -256,7 +361,7 @@ int main() {
 				}
 				if (event.joystickMove.axis == sf::Joystick::Y)
 				{
-					lastY = event.joystickMove.position / 30;
+					lastY = event.joystickMove.position / 25;
 					std::cout << "Y: " << Joystick::getAxisPosition(0, sf::Joystick::Y) << std::endl;
 					if (lastY < 0)
 					{
@@ -391,7 +496,7 @@ int main() {
 		if (play)
 		{
 			timerScie = clockScie.getElapsedTime();
-			if (timerScie.asSeconds() >= 5 && scies.size() < 10)
+			if (timerScie.asSeconds() >= 10 && scies.size() < 10)
 			{
 				scie.initScie(32, 32, rectSprite, "ressources/disc_room_sprite_saw.png", 1);
 				scies.push_back(scie);
@@ -431,13 +536,19 @@ int main() {
 
 			timer = clock.getElapsedTime();
 			timeRun = timer.asSeconds();
-			std::cout << timeRun << std::endl;
+			//std::cout << timeRun << std::endl;
 			
 			txtTimer.setString(std::to_string(timeRun).erase(std::to_string(timeRun).size() - 4, 4));
 			window.draw(txtTimer);
 
 			if (collision == true)
 			{
+				mort.play();
+				txtTimer.setPosition(400 - 25, 350);
+				txtTimer.setCharacterSize(30);
+				window.draw(txtTimer);
+				window.draw(txtGameOver);
+				setText(txtTimer, "", font, "ressources/arial.ttf", 600, 525, 24, Color::Yellow, 0);
 				scoreJoueurActif.setScore(nomJoueurTemp, timeRun);
 				tableauScore.push_back(scoreJoueurActif);
 				scoreJoueurActif.print(std::cout);
@@ -505,10 +616,11 @@ int main() {
 		
 
 		window.display();
-		window.draw(txtTimer);
+
+
 		if (collision)
 		{
-			Sleep(1000);
+			Sleep(2000);
 			collision = false;
 			musicPlay.stop();
 			musicMenu.play();
