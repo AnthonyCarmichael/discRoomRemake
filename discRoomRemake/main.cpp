@@ -247,14 +247,14 @@ int main() {
 					break;
 				}
 
-				std::cout << dir << std::endl;
+				//std::cout << dir << std::endl;
 			}
 			else if (event.type == Event::KeyReleased)//Pour régler les diagonales qui continue même si on à Released une touche
 			{
 				switch (event.key.code)
 				{
 				case Keyboard::S:
-					std::cout << "Released" << event.type;
+					//std::cout << "Released" << event.type;
 					switch (dir)
 					{
 					case 1:
